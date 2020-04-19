@@ -10,22 +10,35 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
-    lazy var allFriendVC = AllFriendVC()
-    lazy var myGroupVC = MyGroupVC()
+    fileprivate let navigationVCAllFriend = UINavigationController(rootViewController: AllFriendVC())
+    fileprivate let navigationVCMyGroup = UINavigationController(rootViewController: MyGroupVC())
+    
+    fileprivate let allFriendItem: UITabBarItem = {
+        let item = UITabBarItem()
+        item.title = "друзья"
+        item.image = UIImage(systemName: "person.2")
+        return item
+    }()
+    
+    fileprivate let groupItem: UITabBarItem = {
+        let item = UITabBarItem()
+        item.title = "сообщества"
+        item.image = UIImage(systemName: "bubble.left.and.bubble.right")
+        return item
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
-        tabBar()
+        DispatchQueue.main.async {
+            self.tabBar()
+        }
     }
     
-    func tabBar() {
-        let item1 = UITabBarItem.init(title: "друзья", image: UIImage(systemName: "person.2"), tag: 1)
-        let item2 = UITabBarItem.init(title: "сообщества", image: UIImage(systemName: "bubble.left.and.bubble.right"), tag: 1)
-        let navigationVCAllFriend = UINavigationController.init(rootViewController: allFriendVC)
-        let navigationVCMyGroup = UINavigationController.init(rootViewController: myGroupVC)
-        navigationVCAllFriend.tabBarItem = item1
-        navigationVCMyGroup.tabBarItem = item2
+    fileprivate func tabBar() {
+        
+        navigationVCAllFriend.tabBarItem = allFriendItem
+        navigationVCMyGroup.tabBarItem = groupItem
         viewControllers = [navigationVCAllFriend, navigationVCMyGroup]
     }
 }

@@ -16,7 +16,7 @@ class SessionSingletone {
     var token = ""
     var IdUser = Int()
     var idFRIEND = ""
-    let apiVersion = "5.95"
+    let apiVersion = "5.103"
     let userDeveloperId = "6646537"
     let baseUrl = "https://api.vk.com"
     

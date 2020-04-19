@@ -26,7 +26,7 @@ class APIServiceRequest {
             urlComponents.queryItems = [
                 URLQueryItem(name: "user_id", value: String(SessionSingletone.shared.IdUser)),
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
-                URLQueryItem(name: "count", value: "50"),
+                URLQueryItem(name: "count", value: "5000"),
                 URLQueryItem(name: "order", value: "hints"),
                 URLQueryItem(name: "fields", value: "nickname, photo_50"),
                 URLQueryItem(name: "v", value: SessionSingletone.shared.apiVersion)

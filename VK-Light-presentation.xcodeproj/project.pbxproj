@@ -147,6 +147,7 @@
 		832DF88523BE299D00DCB79C /* VK-Light-presentation */ = {
 			isa = PBXGroup;
 			children = (
+				83F108A6244B37F300B0996A /* News */,
 				832DF88623BE299D00DCB79C /* AppDelegate.swift */,
 				832DF88823BE299D00DCB79C /* SceneDelegate.swift */,
 				832DF8A823BE2A5900DCB79C /* Model */,
@@ -271,6 +272,13 @@
 				832DF8C323BE2F4A00DCB79C /* MyGroupCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		83F108A6244B37F300B0996A /* News */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = News;
 			sourceTree = "<group>";
 		};
 		E99AFC0981F043927CB6C254 /* Frameworks */ = {
