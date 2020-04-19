@@ -20,11 +20,11 @@ class APIServiceRequest {
     func requestAllFriends(completion: @escaping ([AllFriendParsedData]?, Error?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             var urlComponents = URLComponents()
-            urlComponents.scheme = "https"
-            urlComponents.host = "api.vk.com"
+            urlComponents.scheme = SessionSingletone.shared.scheme
+            urlComponents.host = SessionSingletone.shared.host
             urlComponents.path = "/method/friends.get"
             urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(SessionSingletone.shared.IdUser)),
+                URLQueryItem(name: "user_id", value: String(SessionSingletone.shared.userId)),
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
                 URLQueryItem(name: "count", value: "5000"),
                 URLQueryItem(name: "order", value: "hints"),
@@ -54,13 +54,13 @@ class APIServiceRequest {
     func requestPhotosOneFriend(ownerId: String, completion: @escaping ([PhotoFriendParsedData]?, Error?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             var urlComponents = URLComponents()
-            urlComponents.scheme = "https"
-            urlComponents.host = "api.vk.com"
+            urlComponents.scheme = SessionSingletone.shared.scheme
+            urlComponents.host = SessionSingletone.shared.host
             urlComponents.path = "/method/photos.get"
             urlComponents.queryItems = [
                 URLQueryItem(name: "owner_id", value: ownerId),
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
-                URLQueryItem(name:"album_id", value: "profile"),
+                URLQueryItem(name: "album_id", value: "profile"),
                 URLQueryItem(name: "rev", value: "0"),
                 URLQueryItem(name: "count", value: "100"),
                 URLQueryItem(name: "v", value: SessionSingletone.shared.apiVersion)
@@ -89,11 +89,11 @@ class APIServiceRequest {
     func requestAllGroups() {
         DispatchQueue.global(qos: .userInitiated).async {
             var urlComponents = URLComponents()
-            urlComponents.scheme = "https"
-            urlComponents.host = "api.vk.com"
+            urlComponents.scheme = SessionSingletone.shared.scheme
+            urlComponents.host = SessionSingletone.shared.host
             urlComponents.path = "/method/groups.get"
             urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(SessionSingletone.shared.IdUser)),
+                URLQueryItem(name: "user_id", value: String(SessionSingletone.shared.userId)),
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
                 URLQueryItem(name: "extended", value: "1"),
                 URLQueryItem(name: "v", value: SessionSingletone.shared.apiVersion)

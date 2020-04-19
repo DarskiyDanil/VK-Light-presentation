@@ -14,10 +14,12 @@ class SessionSingletone {
     private init(){}
     
     var token = ""
-    var IdUser = Int()
-    var idFRIEND = ""
+    var userId = Int()
+    var ownerIdSelectedPerson = ""
     let apiVersion = "5.103"
-    let userDeveloperId = "6646537"
-    let baseUrl = "https://api.vk.com"
+    let developerId = "6646537"
+    
+    let scheme = "https"
+    let host = "api.vk.com"
     
 }

@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
     fileprivate let groupItem: UITabBarItem = {
         let item = UITabBarItem()
         item.title = "сообщества"
-        item.image = UIImage(systemName: "bubble.left.and.bubble.right")
+        item.image = UIImage(systemName: "person.3")
         return item
     }()
     

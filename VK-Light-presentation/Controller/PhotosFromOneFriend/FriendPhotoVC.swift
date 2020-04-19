@@ -41,7 +41,7 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
         groupAllFrindList.leave()
         groupAllFrindList.wait()
         groupAllFrindList.enter()
-        returnFriendCoreData()
+        returnPhotoCoreData()
         groupAllFrindList.leave()
         
         DispatchQueue.main.async{
@@ -80,7 +80,7 @@ extension FriendPhotoVC {
     }
     
     //    получение сохраненных данных из CoreData
-    private func returnFriendCoreData() {
+    private func returnPhotoCoreData() {
         //        получаем сохраненные сущности
         let context = getContext()
         //        запрос
@@ -98,7 +98,7 @@ extension FriendPhotoVC {
     //        запрос списка друзей
     private func requestPhotoFriendsSession() {
         self.activityIndicator.startAnimating()
-        self.apiServiceRequest.requestPhotosOneFriend(ownerId: SessionSingletone.shared.idFRIEND) {[unowned self] (friends, error) in
+        self.apiServiceRequest.requestPhotosOneFriend(ownerId: SessionSingletone.shared.ownerIdSelectedPerson) {[unowned self] (friends, error) in
             guard let friendsRequest = friends else {return}
             guard let friendData = self.friendPhotoDataSource.urlPhoto else {return}
             if !friendData.isEmpty {

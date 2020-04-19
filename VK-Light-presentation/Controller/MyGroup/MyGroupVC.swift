@@ -11,8 +11,9 @@ import CoreData
 
 class MyGroupVC: UIViewController, UITableViewDelegate {
     
-    lazy var apiServiceRequest = APIServiceRequest()
-    lazy var allGroupDataTableView = MyGroupDataTableView()
+    let refreshControl = UIRefreshControl()
+    let apiServiceRequest = APIServiceRequest()
+    let allGroupDataTableView = MyGroupDataTableView()
     let groupAllFrindList = DispatchGroup()
     let searchController = UISearchController(searchResultsController: nil)
     var searchBarIsEmpty: Bool {
@@ -32,7 +33,7 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
     let activityIndicator: UIActivityIndicatorView = {
         var activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.color = .red
+        activityIndicator.color = .blue
         return activityIndicator
     }()
     
@@ -45,7 +46,7 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         tableView.delegate = self
         tableView.register(MyGroupCell.self, forCellReuseIdentifier: MyGroupCell.idCell)
         apiServiceRequest.delegate = self
-        
+        addRefreshControl()
         groupAllFrindList.enter()
         apiServiceRequest.requestAllGroups()
         groupAllFrindList.leave()
@@ -215,25 +216,40 @@ extension MyGroupVC : UISearchResultsUpdating {
             let context = getContext()
             //        запрос
             let fetchRequest: NSFetchRequest<AllGroupCoreData> = AllGroupCoreData.fetchRequest()
-            //            сортировка
-//            let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
-//            fetchRequest.sortDescriptors = [sortDescriptor]
             //            фильтрация
             let predicate = NSPredicate(format: "name BEGINSWITH[cd] %@", searchText)
             fetchRequest.predicate = predicate
             
             do {
                 allGroupDataTableView.allGroups = try context.fetch(fetchRequest)
-                
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
         } else {
-            returnGroupedCoreData()
+            self.returnGroupedCoreData()
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    //    обновление свайпом
+    fileprivate func addRefreshControl() {
+        self.tableView.addSubview(refreshControl)
+        refreshControl.attributedTitle = NSAttributedString(string: "обновление")
+        refreshControl.tintColor = .blue
+        refreshControl.addTarget(self, action: #selector(refreshNewsList), for: .valueChanged)
+    }
+    
+    @objc private func refreshNewsList() {
+        groupAllFrindList.enter()
+        self.apiServiceRequest.requestAllGroups()
+        groupAllFrindList.leave()
+        groupAllFrindList.wait()
+        groupAllFrindList.enter()
+        refreshControl.endRefreshing()
+        self.returnGroupedCoreData()
+        groupAllFrindList.leave()
     }
     
     

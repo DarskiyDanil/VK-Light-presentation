@@ -41,11 +41,11 @@ class LogInVC: UIViewController, UIWebViewDelegate {
     
     fileprivate func requestLogin() {
         var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
+        urlComponents.scheme = SessionSingletone.shared.scheme
         urlComponents.host = "oauth.vk.com"
         urlComponents.path = "/authorize"
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: SessionSingletone.shared.userDeveloperId),
+            URLQueryItem(name: "client_id", value: SessionSingletone.shared.developerId),
             URLQueryItem(name: "redirect_url", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "scope", value: "270342"),
@@ -85,7 +85,7 @@ extension LogInVC: WKNavigationDelegate {
         }
         
         SessionSingletone.shared.token = tokenAccess
-        SessionSingletone.shared.IdUser = userID
+        SessionSingletone.shared.userId = userID
         
         self.present(self.tabBarPresentController, animated: true, completion: nil)
         decisionHandler(.cancel)

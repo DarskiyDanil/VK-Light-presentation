@@ -10,6 +10,7 @@ import UIKit
 
 class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    let refreshControl = UIRefreshControl()
     var apiServiceRequest = APIServiceRequest()
     var allFriendDataTableView = AllFriendDataTableView()
     let groupAllFrindList = DispatchGroup()
@@ -26,7 +27,7 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
     let activityIndicator: UIActivityIndicatorView = {
         var activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.color = .red
+        activityIndicator.color = .blue
         return activityIndicator
     }()
     
@@ -44,13 +45,13 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         tableView.dataSource = allFriendDataTableView
         tableView.delegate = self
         tableView.register(AllFriendCell.self, forCellReuseIdentifier: AllFriendCell.idCell)
-        
+        addRefreshControl()
         groupAllFrindList.enter()
-        requestMyFriendsSession()
+        self.requestMyFriendsSession()
         groupAllFrindList.leave()
         groupAllFrindList.wait()
         groupAllFrindList.enter()
-        returnFriendCoreData()
+        self.returnFriendCoreData()
         groupAllFrindList.leave()
         
         DispatchQueue.main.async{
@@ -65,13 +66,14 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let indexPath = tableView.indexPathForSelectedRow {
             guard let friend = allFriendDataTableView.allFriend?[indexPath.row] else {return}
             let idFriend = String(friend.id)
-            SessionSingletone.shared.idFRIEND = idFriend
+            SessionSingletone.shared.ownerIdSelectedPerson = idFriend
             navigationController?.pushViewController(FriendPhotoVC(), animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -197,7 +199,6 @@ extension AllFriendVC {
 extension AllFriendVC : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
-        
     }
     
     private func filterContentForSearchText(_ searchText: String) {
@@ -205,25 +206,40 @@ extension AllFriendVC : UISearchResultsUpdating {
             let context = getContext()
             //        запрос
             let fetchRequest: NSFetchRequest<AllFriendCoreData> = AllFriendCoreData.fetchRequest()
-            //            сортировка
-//            let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
-//            fetchRequest.sortDescriptors = [sortDescriptor]
             //            фильтрация
             let predicate = NSPredicate(format: "firstName BEGINSWITH[cd] %@", searchText)
             fetchRequest.predicate = predicate
             
             do {
                 allFriendDataTableView.allFriend = try context.fetch(fetchRequest)
-                
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
         } else {
-            returnFriendCoreData()
+            self.returnFriendCoreData()
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    //    обновление свайпом
+    fileprivate func addRefreshControl() {
+        self.tableView.addSubview(refreshControl)
+        refreshControl.attributedTitle = NSAttributedString(string: "обновление")
+        refreshControl.tintColor = .blue
+        refreshControl.addTarget(self, action: #selector(refreshNewsList), for: .valueChanged)
+    }
+    
+    @objc private func refreshNewsList() {
+        groupAllFrindList.enter()
+        self.requestMyFriendsSession()
+        groupAllFrindList.leave()
+        groupAllFrindList.wait()
+        groupAllFrindList.enter()
+        refreshControl.endRefreshing()
+        self.returnFriendCoreData()
+        groupAllFrindList.leave()
     }
     
     
