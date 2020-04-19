@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="AllFriendCoreData" representedClassName=".AllFriendCoreData" syncable="YES">
+        <attribute name="dateDownload" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
     </entity>
     <entity name="AllGroupCoreData" representedClassName=".AllGroupCoreData" syncable="YES">
+        <attribute name="dateDownload" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
@@ -23,8 +25,8 @@
         <relationship name="photoFriendCoreData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PhotoFriendCoreData" inverseName="urlPhotoCoreData" inverseEntity="PhotoFriendCoreData"/>
     </entity>
     <elements>
-        <element name="AllFriendCoreData" positionX="49.5" positionY="-117.10546875" width="128" height="103"/>
-        <element name="AllGroupCoreData" positionX="56.171875" positionY="214.0625" width="128" height="88"/>
+        <element name="AllFriendCoreData" positionX="49.5" positionY="-117.10546875" width="128" height="118"/>
+        <element name="AllGroupCoreData" positionX="56.171875" positionY="214.0625" width="128" height="103"/>
         <element name="PhotoFriendCoreData" positionX="-54" positionY="18" width="128" height="88"/>
         <element name="UrlPhotoCoreData" positionX="327.171875" positionY="77.140625" width="128" height="103"/>
     </elements>

@@ -41,7 +41,7 @@ struct AllFriendParsedData: Codable {
         case id
         case firstName = "first_name"
         case lastName = "last_name"
-        case imageUrl = "photo_50"
+        case imageUrl = "photo_100"
     }
     
     init(from decoder: Decoder) throws {

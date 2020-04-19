@@ -21,5 +21,6 @@ extension AllFriendCoreData {
     @NSManaged public var id: Int64
     @NSManaged public var imageUrl: String?
     @NSManaged public var lastName: String?
+    @NSManaged public var dateDownload: Date?
 
 }

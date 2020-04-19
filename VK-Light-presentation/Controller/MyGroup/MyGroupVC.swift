@@ -126,6 +126,7 @@ extension MyGroupVC {
             contextObject.name =  friend.name
             contextObject.imageUrl = friend.imageUrl
             contextObject.id = Int64(friend.id)
+            contextObject.dateDownload = Date()
             attributes.append(contextObject)
         }
         do {
@@ -144,6 +145,8 @@ extension MyGroupVC {
         let context = getContext()
         //        запрос
         let fetchRequest: NSFetchRequest<AllGroupCoreData> = AllGroupCoreData.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         do {
             allGroupDataTableView.allGroups = try context.fetch(fetchRequest)
             DispatchQueue.main.async {
@@ -212,9 +215,9 @@ extension MyGroupVC : UISearchResultsUpdating {
             let context = getContext()
             //        запрос
             let fetchRequest: NSFetchRequest<AllGroupCoreData> = AllGroupCoreData.fetchRequest()
-            //            сортировка по имени
-            let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor]
+            //            сортировка
+//            let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
+//            fetchRequest.sortDescriptors = [sortDescriptor]
             //            фильтрация
             let predicate = NSPredicate(format: "name BEGINSWITH[cd] %@", searchText)
             fetchRequest.predicate = predicate

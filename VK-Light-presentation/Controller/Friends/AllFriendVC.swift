@@ -117,6 +117,7 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
             contextObject.lastName = friend.lastName
             contextObject.imageUrl = friend.imageUrl
             contextObject.id = Int64(friend.id)
+            contextObject.dateDownload = Date()
             attributes.append(contextObject)
         }
         do {
@@ -136,7 +137,7 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         let context = getContext()
         //        запрос
         let fetchRequest: NSFetchRequest<AllFriendCoreData> = AllFriendCoreData.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "firstName", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         do {
             allFriendDataTableView.allFriend = try context.fetch(fetchRequest)
@@ -204,9 +205,9 @@ extension AllFriendVC : UISearchResultsUpdating {
             let context = getContext()
             //        запрос
             let fetchRequest: NSFetchRequest<AllFriendCoreData> = AllFriendCoreData.fetchRequest()
-            //            сортировка по имени
-            let sortDescriptor = NSSortDescriptor(key: "firstName", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor]
+            //            сортировка
+//            let sortDescriptor = NSSortDescriptor(key: "dateDownload", ascending: true)
+//            fetchRequest.sortDescriptors = [sortDescriptor]
             //            фильтрация
             let predicate = NSPredicate(format: "firstName BEGINSWITH[cd] %@", searchText)
             fetchRequest.predicate = predicate

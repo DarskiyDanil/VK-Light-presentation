@@ -20,5 +20,6 @@ extension AllGroupCoreData {
     @NSManaged public var id: Int64
     @NSManaged public var imageUrl: String?
     @NSManaged public var name: String?
+    @NSManaged public var dateDownload: Date?
 
 }

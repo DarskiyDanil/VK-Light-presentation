@@ -28,11 +28,12 @@ class APIServiceRequest {
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
                 URLQueryItem(name: "count", value: "5000"),
                 URLQueryItem(name: "order", value: "hints"),
-                URLQueryItem(name: "fields", value: "nickname, photo_50"),
+                URLQueryItem(name: "fields", value: "nickname, photo_100"),
                 URLQueryItem(name: "v", value: SessionSingletone.shared.apiVersion)
             ]
             guard let url = urlComponents.url else {return}
             let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+                
                 guard let currentData = data else { return }
                 // парсинг JSON
                 do {
