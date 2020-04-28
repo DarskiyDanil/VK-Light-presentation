@@ -12,8 +12,7 @@
 
 import UIKit
 
-class NewsFeedWorker
-{
+class NewsFeedWorker {
   func doSomeWork() {
   }
 }

@@ -47,7 +47,7 @@ class GalleryCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
         return cell
     }
     
-//    принимает размер всей коллекции
+    //    принимает размер всей коллекции
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.width, height: frame.height)
     }
@@ -55,7 +55,7 @@ class GalleryCollectionView: UICollectionView, UICollectionViewDelegate, UIColle
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
- 
+    
 }
 
 extension GalleryCollectionView: RowLayoutDelegate {

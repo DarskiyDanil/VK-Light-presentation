@@ -16,7 +16,8 @@ class RowLayout: UICollectionViewLayout {
     
     weak var delegate: RowLayoutDelegate!
     
-    static var numbersOfRows = 2
+    //    количество строк
+    static var numbersOfRows = 1
     fileprivate var cellPadding: CGFloat = 4
     //    кеш вычисляемых атрибутов
     fileprivate var cache = [UICollectionViewLayoutAttributes]()
@@ -34,9 +35,9 @@ class RowLayout: UICollectionViewLayout {
     }
     
     override func prepare() {
-//        обнуление размеров
+        //        обнуление размеров
         contentWidth = 0
-//        очистка кеш
+        //        очистка кеш
         cache = []
         guard cache.isEmpty == true, let collectionView = collectionView else {return}
         
@@ -49,14 +50,14 @@ class RowLayout: UICollectionViewLayout {
         
         let superViewWidth = collectionView.frame.width
         
-//        фиксированная высота для каждого столбца
+        //        фиксированная высота для каждого столбца
         guard var rowHeight = RowLayout.rowHeightCounter(superViewWidth: superViewWidth, photosArray: photos) else {return}
         
         rowHeight = rowHeight / CGFloat(RowLayout.numbersOfRows)
         
         let photosRatios = photos.map {$0.height / $0.width}
         
-//        координаты но Y
+        //        координаты но Y
         var yOffset = [CGFloat]()
         for row in 0 ..< RowLayout.numbersOfRows {
             yOffset.append(CGFloat(row) * rowHeight)
@@ -69,7 +70,7 @@ class RowLayout: UICollectionViewLayout {
         for item in 0 ..< collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
             let ratio = photosRatios[indexPath.row]
-//            соотношение сторон для каждой картинки
+            //            соотношение сторон для каждой картинки
             let width = (rowHeight / ratio)
             let frame = CGRect(x: xOffset[row], y: yOffset[row], width: width, height: rowHeight)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
@@ -109,7 +110,7 @@ class RowLayout: UICollectionViewLayout {
         }
         return visibleLayoutAttributes
     }
-
+    
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[indexPath.row]
     }

@@ -42,6 +42,7 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         navigationItem.title = "мои сообщества"
         //        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
+        navigationController?.hidesBarsOnSwipe = true
         tableView.dataSource = allGroupDataTableView
         tableView.delegate = self
         tableView.register(MyGroupCell.self, forCellReuseIdentifier: MyGroupCell.idCell)
@@ -86,9 +87,9 @@ extension MyGroupVC: APIServiceRequestDelegate {
     
     // получение данных через делегат
     func updateMyGroupsInterface(_: APIServiceRequest, with parsedData: (data: [AllGroupParsedData], error: Error?)) {
-        DispatchQueue.main.async{
+//        DispatchQueue.main.async{
             self.activityIndicator.startAnimating()
-        }
+//        }
         guard let friendData = self.allGroupDataTableView.allGroups else {return}
         if !friendData.isEmpty {
             self.dellAllFriendCoreData()
@@ -99,10 +100,10 @@ extension MyGroupVC: APIServiceRequestDelegate {
             print(error.localizedDescription)
         } else {
             self.saveListGroupsCoreData(friendData: parsedData.data)
-            DispatchQueue.main.async{
+//            DispatchQueue.main.async{
                 //                self.tableView.reloadData()
                 self.activityIndicator.stopAnimating()
-            }
+//            }
         }
     }
     

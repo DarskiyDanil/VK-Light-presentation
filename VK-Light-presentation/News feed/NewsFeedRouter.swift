@@ -12,18 +12,15 @@
 
 import UIKit
 
-@objc protocol NewsFeedRoutingLogic
-{
+@objc protocol NewsFeedRoutingLogic {
   //func routeToSomewhere(segue: UIStoryboardSegue?)
 }
 
-protocol NewsFeedDataPassing
-{
+protocol NewsFeedDataPassing {
   var dataStore: NewsFeedDataStore? { get }
 }
 
-class NewsFeedRouter: NSObject, NewsFeedRoutingLogic, NewsFeedDataPassing
-{
+class NewsFeedRouter: NSObject, NewsFeedRoutingLogic, NewsFeedDataPassing {
   weak var viewController: NewsFeedViewController?
   var dataStore: NewsFeedDataStore?
   

@@ -28,7 +28,6 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         return dateFormatter
     }()
     
-    
     // MARK: Do present
     
     func presentData(response: NewsFeed.Model.Response.ResponseType) {
@@ -37,20 +36,23 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
             
         case .presentNewsFeed(feed: let feed, let openedPostIds):
             let cells = feed.items.map { (feedItem) in
-                //                cellViewModel(from: feedItem)
+                
                 cellViewModel(from: feedItem, profileNewsFeed: feed.profiles, groupNewsFeed: feed.groups, openedPostIds: openedPostIds)
             }
             
             let feedViewModel = FeedViewModel.init(cells: cells)
             
             viewController?.displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData.displayNewsFeed(feedViewModel: feedViewModel))
+        case .presentUserPhoto(user: let user):
+            let userViewModel = UserViewModel.init(photoUrlString: user?.photo100)
+            viewController?.displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData.displayUser(userViewModel: userViewModel))
         }
     }
     
     private func cellViewModel(from feedItem: ItemNewsFeed, profileNewsFeed: [ProfileNewsFeed], groupNewsFeed: [GroupNewsFeed], openedPostIds: [Int]) -> FeedViewModel.Cell {
         
         let profile = self.profileSource(for: feedItem.sourceId, profiles: profileNewsFeed, groups: groupNewsFeed)
-
+        
         let photoAttachments =  self.photoAttachments(feedItem: feedItem)
         
         let date = Date(timeIntervalSince1970: feedItem.date)
@@ -60,21 +62,43 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
             postId == feedItem.postId
         }
         
-        //        let isFullSized = openedPostIds.contains(feedItem.postId)
-        
         let sizes = cellLayoutCalculator.sizes(postText: feedItem.text, photoAttachments: photoAttachments, isFullSizedPost: isFullSized)
+        
+        let postText = feedItem.text?.replacingOccurrences(of: "<br>", with: "\n")
         
         return FeedViewModel.Cell.init(postId: feedItem.postId,
                                        iconUrlString: profile.photo,
                                        name: profile.name,
                                        date: dateTitle,
-                                       text: feedItem.text,
-                                       likes: String(feedItem.likes?.count ?? 0),
-                                       comments: String(feedItem.comments?.count ?? 0),
-                                       shares: String(feedItem.reposts?.count ?? 0),
-                                       viewers: String(feedItem.views?.count ?? 0),
+                                       text: postText,
+                                       likes: formatCount(feedItem.likes?.count),
+                                       comments: formatCount(feedItem.comments?.count),
+                                       shares: formatCount(feedItem.reposts?.count),
+                                       viewers: formatCount(feedItem.views?.count),
                                        photoAttachments: photoAttachments,
                                        sizes: sizes)
+    }
+    
+    private func formatCount (_ count: Int?) -> String? {
+        guard let counter = count, counter > 0 else {return nil}
+        var counterString = String(counter)
+        if 4...6 ~= counterString.count {
+            let dropFirstLast = counterString
+            
+            switch counterString.count {
+            case 6:
+                counterString = String(counterString.dropLast(3)) + "," + dropFirstLast.dropFirst(3).dropLast(2) + "K"
+            case 5:
+                counterString = String(counterString.dropLast(3)) + "," + dropFirstLast.dropFirst(2).dropLast(2) + "K"
+            case 4:
+                counterString = String(counterString.dropLast(3)) + "," + dropFirstLast.dropFirst(1).dropLast(2) + "K"
+            default: break
+            }
+            
+        } else if counterString.count > 6 {
+            counterString = String(counterString.dropLast(6)) + "M"
+        }
+        return counterString
     }
     
     private func profileSource(for sourceId: Int, profiles: [ProfileNewsFeed], groups: [GroupNewsFeed]) -> ProfilePresentable {
@@ -83,20 +107,8 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
         let profilePresentable = profilesOrGroup.first { (MyProfilePresentable) -> Bool in
             MyProfilePresentable.id == normalSourceId
         }
-        //        guard profilePresentable != nil else {return 0 as! ProfilePresentable}
         return profilePresentable ?? 0 as! ProfilePresentable
     }
-    
-    //    private func photoAttachment (feedItem: ItemNewsFeed) -> FeedViewModel.FeedCellPhotoAttachment? {
-    //        guard let photos = feedItem.attachments?.compactMap({ (attachment) in
-    //            attachment.photo
-    //        }), let firstPhoto = photos.first else {
-    //            return nil
-    //        }
-    //        return FeedViewModel.FeedCellPhotoAttachment.init(photoUrlString: firstPhoto.srcBig,
-    //                                                          width: firstPhoto.width,
-    //                                                          height: firstPhoto.height)
-    //    }
     
     private func photoAttachments (feedItem: ItemNewsFeed) -> [FeedViewModel.FeedCellPhotoAttachment] {
         guard let attachments = feedItem.attachments else {return []}

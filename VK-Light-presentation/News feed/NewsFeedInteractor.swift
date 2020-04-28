@@ -48,6 +48,11 @@ class NewsFeedInteractor: NewsFeedBusinessLogic, NewsFeedDataStore {
         case .openPostId(postId: let postId):
             openedPostIds.append(postId)
             presentNews()
+        case .getUser:
+            fetcher.getUser { [weak self] (userResponse) in
+                self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentUserPhoto(user: userResponse))
+            }
+            
         }
         
         worker?.doSomeWork()

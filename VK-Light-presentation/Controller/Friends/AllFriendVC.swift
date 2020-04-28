@@ -23,7 +23,6 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         return searchController.isActive && !searchBarIsEmpty
     }
     
-    
     let activityIndicator: UIActivityIndicatorView = {
         var activityIndicator = UIActivityIndicatorView()
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -42,6 +41,7 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         navigationItem.title = "мои друзья"
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.searchController = searchController
+        self.navigationController?.hidesBarsOnSwipe = true
         tableView.dataSource = allFriendDataTableView
         tableView.delegate = self
         tableView.register(AllFriendCell.self, forCellReuseIdentifier: AllFriendCell.idCell)
@@ -219,13 +219,16 @@ extension AllFriendVC : UISearchResultsUpdating {
     }
     
     @objc private func refreshNewsList() {
+        
         groupAllFrindList.enter()
+//        activityIndicator.isHidden = true
         self.requestMyFriendsSession()
         groupAllFrindList.leave()
         groupAllFrindList.wait()
         groupAllFrindList.enter()
         refreshControl.endRefreshing()
         self.returnFriendCoreData()
+//        activityIndicator.isHidden = false
         groupAllFrindList.leave()
     }
     

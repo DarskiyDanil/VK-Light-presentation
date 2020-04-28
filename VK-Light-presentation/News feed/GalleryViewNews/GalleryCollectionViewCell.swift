@@ -13,7 +13,7 @@ class GalleryCollectionViewCell: UICollectionViewCell {
     static let idCell = "GalleryCollectionViewCell"
     
     let myImageView: WebImageView = {
-      let image = WebImageView()
+        let image = WebImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         image.backgroundColor = .clear
@@ -24,7 +24,7 @@ class GalleryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(myImageView)
         
-//        myImageView constraints
+        //        myImageView constraints
         myImageView.fillSuperview()
     }
     

@@ -67,21 +67,14 @@ final class NewsFeedCellLayoutCalculator: NewsFeedCellLayoutCalculatorProtocol {
         
         var attachmentFrame = CGRect(origin: CGPoint(x: 0, y: attachmentTop), size: CGSize.zero)
         
-//        if let attachment = photoAttachment {
-//            let photoHeight: Float = Float(attachment.height)
-//            let photoWight: Float = Float(attachment.width)
-//            let ratio = CGFloat(photoHeight / photoWight)
-//            attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
-//        }
-        
         if let attachment = photoAttachments.first {
             let photoHeight: Float = Float(attachment.height)
             let photoWight: Float = Float(attachment.width)
             let ratio = CGFloat(photoHeight / photoWight)
             if photoAttachments.count == 1 {
-            attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
+                attachmentFrame.size = CGSize(width: cardViewWidth, height: cardViewWidth * ratio)
             } else if photoAttachments.count > 1 {
-//                подсчёт Layout через RowLayout.rowHeightCounter
+                //                подсчёт Layout через RowLayout.rowHeightCounter
                 var photos = [CGSize]()
                 for photo in photoAttachments {
                     let photoSize = CGSize(width: CGFloat(photo.width), height: CGFloat(photo.height))

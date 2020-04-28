@@ -58,11 +58,19 @@ final class NewsFeedCodeCell: UITableViewCell {
         return view
     }()
     
-    let postLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = Constants.postLabelFont
-        lbl.numberOfLines = 0
-        return lbl
+    let postLabel: UITextView = {
+        let textView = UITextView()
+        textView.font = Constants.postLabelFont
+        textView.isScrollEnabled = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = false
+        //        выравнивание отступа
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets.init(top: 0, left: -padding, bottom: 0, right: -padding)
+        
+        textView.dataDetectorTypes = UIDataDetectorTypes.all
+        return textView
     }()
     
     let postButton: UIButton = {
@@ -281,8 +289,6 @@ final class NewsFeedCodeCell: UITableViewCell {
         topView.heightAnchor.constraint(equalToConstant: Constants.topVewHeight).isActive = true
         //        postLabel constraints динамически
         //        postLabel constraints
-        
-        
         //        newsImage constraints динамически
         //        bottomView constraints динамически
     }

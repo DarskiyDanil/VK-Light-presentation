@@ -21,6 +21,26 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
     var interactor: NewsFeedBusinessLogic?
     var router: (NSObjectProtocol & NewsFeedRoutingLogic & NewsFeedDataPassing)?
     private var feedViewModel = FeedViewModel.init(cells: [])
+    private var titleView = TitleView()
+    
+    let tableView: UITableView = {
+        var tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    let activityIndicator: UIActivityIndicatorView = {
+        var activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = .blue
+        return activityIndicator
+    }()
+    
+    private var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
     
     // MARK: Setup
     
@@ -54,52 +74,52 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
         super.viewDidLoad()
         //    doSomething()
         setup()
-        tableView.dataSource = self
-        tableView.delegate = self
-//        tableView.separatorStyle = .none
-//        tableView.backgroundColor = .magenta
+        setupTableView()
+        setupTopBar()
         
-        tableView.register(NewsFeedCodeCell.self, forCellReuseIdentifier: NewsFeedCodeCell.idCell)
-        tableView.register(NewsFeedCell.self, forCellReuseIdentifier: NewsFeedCell.idCell)
         DispatchQueue.main.async {
             self.addViews()
         }
         interactor?.makeRequest(request: NewsFeed.Model.Request.RequestType.getNewsFeed)
+        interactor?.makeRequest(request: NewsFeed.Model.Request.RequestType.getUser)
     }
     
-    // MARK: Do something
+    private func setupTableView() {
+        
+        tableView.contentInset.top = CGFloat(8)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(NewsFeedCodeCell.self, forCellReuseIdentifier: NewsFeedCodeCell.idCell)
+        //        tableView.separatorStyle = .none
+        tableView.addSubview(refreshControl)
+    }
     
-    //@IBOutlet weak var nameTextField: UITextField!
+    //    установка строки поиска
+    private func setupTopBar() {
+        self.navigationController?.hidesBarsOnSwipe = true
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.titleView = titleView
+    }
     
-    //    func doSomething() {
-    //    let request = NewsFeed.Model.Request.RequestType()
-    //    interactor?.makeRequest(request: request)
-    //    }
+    //    обновление посвайпу
+    @objc private func refresh() {
+        interactor?.makeRequest(request: NewsFeed.Model.Request.RequestType.getNewsFeed)
+    }
     
     func displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData) {
         switch viewModel {
         case .displayNewsFeed(feedViewModel: let feedViewModel):
             self.feedViewModel = feedViewModel
             tableView.reloadData()
+            refreshControl.endRefreshing()
+        case .displayUser(userViewModel: let userViewModel):
+            titleView.set(userViewModel: userViewModel)
         }
-        //nameTextField.text = viewModel.name
+        
     }
     
     
-    let tableView: UITableView = {
-        var tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
-    
-    let activityIndicator: UIActivityIndicatorView = {
-        var activityIndicator = UIActivityIndicatorView()
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.color = .blue
-        return activityIndicator
-    }()
-    
-//    MARK: NewsFeedCodeCellDelegate
+    //    MARK: NewsFeedCodeCellDelegate
     func openPost(for cell: NewsFeedCodeCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {return}
         let cellViewModel = feedViewModel.cells[indexPath.row]
@@ -117,7 +137,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //        let cell = tableView.dequeueReusableCell(withIdentifier: NewsFeedCell.idCell, for: indexPath) as! NewsFeedCell
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsFeedCodeCell.idCell, for: indexPath) as! NewsFeedCodeCell
         let cellViewModel = feedViewModel.cells[indexPath.row]
         cell.delegate = self
@@ -126,8 +146,8 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-                let cellViewModel = feedViewModel.cells[indexPath.row]
-                return cellViewModel.sizes.totalHeightCell
+        let cellViewModel = feedViewModel.cells[indexPath.row]
+        return cellViewModel.sizes.totalHeightCell
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -147,10 +167,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.fillSuperview()
     }
     
     

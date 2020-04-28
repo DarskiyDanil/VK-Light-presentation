@@ -35,7 +35,7 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
         collectionView.dataSource = friendPhotoDataSource
         collectionView.delegate = self
         collectionView.register(FriendPhotoCell.self, forCellWithReuseIdentifier: FriendPhotoCell.idCell)
-        
+        navigationController?.hidesBarsOnSwipe = false
         groupAllFrindList.enter()
         requestPhotoFriendsSession()
         groupAllFrindList.leave()
