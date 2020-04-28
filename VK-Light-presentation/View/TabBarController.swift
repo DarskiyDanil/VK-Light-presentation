@@ -12,6 +12,7 @@ class TabBarController: UITabBarController {
     
     fileprivate let navigationVCAllFriend = UINavigationController(rootViewController: AllFriendVC())
     fileprivate let navigationVCMyGroup = UINavigationController(rootViewController: MyGroupVC())
+    fileprivate let navigationVCNews = UINavigationController(rootViewController: NewsFeedViewController())
     
     fileprivate let allFriendItem: UITabBarItem = {
         let item = UITabBarItem()
@@ -27,6 +28,13 @@ class TabBarController: UITabBarController {
         return item
     }()
     
+    fileprivate let newsItem: UITabBarItem = {
+        let item = UITabBarItem()
+        item.title = "лента"
+        item.image = UIImage(systemName: "rectangle.dock")
+        return item
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
@@ -39,6 +47,7 @@ class TabBarController: UITabBarController {
         
         navigationVCAllFriend.tabBarItem = allFriendItem
         navigationVCMyGroup.tabBarItem = groupItem
-        viewControllers = [navigationVCAllFriend, navigationVCMyGroup]
+        navigationVCNews.tabBarItem = newsItem
+        viewControllers = [navigationVCNews, navigationVCAllFriend, navigationVCMyGroup]
     }
 }

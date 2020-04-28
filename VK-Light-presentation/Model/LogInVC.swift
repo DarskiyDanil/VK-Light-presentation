@@ -45,7 +45,7 @@ class LogInVC: UIViewController, UIWebViewDelegate {
         urlComponents.host = "oauth.vk.com"
         urlComponents.path = "/authorize"
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: SessionSingletone.shared.developerId),
+            URLQueryItem(name: "client_id", value: SessionSingletone.shared.developerСlientId),
             URLQueryItem(name: "redirect_url", value: "https://oauth.vk.com/blank.html"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "scope", value: "270342"),

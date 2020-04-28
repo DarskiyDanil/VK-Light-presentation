@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class MyGroupCell: UITableViewCell {
     
@@ -15,27 +14,12 @@ class MyGroupCell: UITableViewCell {
     
     func configure(with friend: AllGroupCoreData) {
         guard let imageUrl = friend.imageUrl else {return}
-        let imageURL = URL(string: imageUrl)
         self.titleNameFriends.text = friend.name
-        self.icon.kf.setImage(with: imageURL, placeholder: nil)
+        self.icon.set(imageUrl: imageUrl)
     }
     
-    
-    //    func configure(with friend: AllGroupParsedData) {
-    //        self.titleNameFriends.text = friend.name
-    //        let imageURL:URL = URL(string: friend.imageUrl)!
-    //        let queue = DispatchQueue.global(qos: .userInitiated)
-    //        queue.async {
-    //            if let imgData = try? Data(contentsOf: imageURL){
-    //                DispatchQueue.main.async {
-    //                    self.icon.image = UIImage(data: imgData)
-    //                }
-    //            }
-    //        }
-    //    }
-    
-    var icon: UIImageView = {
-        var img = UIImageView()
+    var icon: WebImageView = {
+        var img = WebImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFit
         img.clipsToBounds = true
@@ -50,11 +34,12 @@ class MyGroupCell: UITableViewCell {
         return lbl
     }()
     
+    override func prepareForReuse() {
+        self.icon.set(imageUrl: nil)
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.addSubview(icon)
-        contentView.addSubview(titleNameFriends)
         DispatchQueue.main.async {
             self.anchorConstrains()
         }
@@ -65,6 +50,9 @@ class MyGroupCell: UITableViewCell {
     }
     
     private func anchorConstrains() {
+        contentView.addSubview(icon)
+        contentView.addSubview(titleNameFriends)
+        
         icon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         icon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 1).isActive = true
         icon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true
@@ -74,10 +62,6 @@ class MyGroupCell: UITableViewCell {
         titleNameFriends.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
         titleNameFriends.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 15).isActive = true
         titleNameFriends.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
     }
     
 }

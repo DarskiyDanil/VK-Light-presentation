@@ -7,32 +7,25 @@
 //
 
 import UIKit
-import Kingfisher
 
 class AllFriendCell: UITableViewCell {
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
+override func prepareForReuse() {
+    self.icon.set(imageUrl: nil)
+}
     
     static let idCell = "AllFriendCell"
-    
-    var cachedDataSorce: NSCache<AnyObject, UIImage> = {
-        let cache = NSCache<AnyObject, UIImage>()
-        return cache
-    }()
     
     func configure(with friend: AllFriendCoreData) {
         guard let imageUrl = friend.imageUrl else {return}
         guard let firstName = friend.firstName else {return}
         guard let lastName = friend.lastName else {return}
         self.titleNameFriends.text = "\(firstName)  \(lastName)"
-        let imageURL = URL(string: imageUrl)
-        self.icon.kf.setImage(with: imageURL, placeholder: nil)
+        self.icon.set(imageUrl: imageUrl)
     }
     
-    var icon: UIImageView = {
-        var img = UIImageView()
+    var icon: WebImageView = {
+        var img = WebImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFit
         img.clipsToBounds = true
@@ -50,8 +43,7 @@ class AllFriendCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(icon)
-        contentView.addSubview(titleNameFriends)
+        
         DispatchQueue.main.async {
             self.anchorConstrains()
         }
@@ -63,6 +55,10 @@ class AllFriendCell: UITableViewCell {
     
     //MARK: настройки ячейки
     private func anchorConstrains() {
+        
+        contentView.addSubview(icon)
+        contentView.addSubview(titleNameFriends)
+        
         icon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         icon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 1).isActive = true
         icon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1).isActive = true

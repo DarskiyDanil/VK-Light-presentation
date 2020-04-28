@@ -11,7 +11,7 @@ import UIKit
 class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelegateFlowLayout {
     
     let refreshControl = UIRefreshControl()
-    var apiServiceRequest = APIServiceRequest()
+    let apiServiceRequest = APIServiceRequest()
     var allFriendDataTableView = AllFriendDataTableView()
     let groupAllFrindList = DispatchGroup()
     let searchController = UISearchController(searchResultsController: nil)
@@ -164,6 +164,9 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         do {
             try context.save()
             allFriendDataTableView.allFriend?.removeAll()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         } catch let error as NSError {
             print(error.localizedDescription)
         }
@@ -175,25 +178,9 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         alter.addAction(action)
         present(alter, animated: true, completion: nil)
     }
+    
 }
 
-extension AllFriendVC {
-    
-    fileprivate func addViews() {
-        view.addSubview(tableView)
-        view.addSubview(activityIndicator)
-        
-        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-    
-}
 
 // MARK: - Search
 extension AllFriendVC : UISearchResultsUpdating {
@@ -245,3 +232,21 @@ extension AllFriendVC : UISearchResultsUpdating {
     
 }
 
+
+extension AllFriendVC {
+    
+    fileprivate func addViews() {
+        view.addSubview(tableView)
+        view.addSubview(activityIndicator)
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+}

@@ -1,6 +1,0 @@
-framework module Pods_VK_Light_presentation {
-  umbrella header "Pods-VK-Light-presentation-umbrella.h"
-
-  export *
-  module * { export * }
-}

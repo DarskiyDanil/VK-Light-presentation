@@ -7,36 +7,19 @@
 //
 
 import UIKit
-import Kingfisher
 
 class FriendPhotoCell: UICollectionViewCell {
     
     static let idCell = "FriendPhotoCell"
     
-    func setupViews() {
-        picture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        picture.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        picture.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        picture.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        picture.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        picture.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-    }
-    
-    //    func configure(with friend: PhotoFriendParsedData) {
-    //        let imageURL = URL(string: friend.sizes[0].url)
-    ////        DispatchQueue.global(qos: .utility).async {
-    //        self.picture.kf.setImage(with: imageURL, placeholder: nil)
-    ////        }
-    //    }
     
     func configure(with friend: UrlPhotoCoreData) {
         guard let url = friend.url else {return}
-        let imageURL = URL(string: url)
-        self.picture.kf.setImage(with: imageURL, placeholder: nil)
+        self.picture.set(imageUrl: url)
     }
     
-    let picture: UIImageView = {
-        var imageView = UIImageView()
+    let picture: WebImageView = {
+        var imageView = WebImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
@@ -57,10 +40,18 @@ class FriendPhotoCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func prepareForReuse() {
+        self.picture.set(imageUrl: nil)
     }
     
+    func setupViews() {
+        picture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        picture.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        picture.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        picture.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        picture.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        picture.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+    }
     
     
 }

@@ -17,7 +17,7 @@ class SessionSingletone {
     var userId = Int()
     var ownerIdSelectedPerson = ""
     let apiVersion = "5.103"
-    let developerId = "6646537"
+    let developerСlientId = "6646537"
     
     let scheme = "https"
     let host = "api.vk.com"

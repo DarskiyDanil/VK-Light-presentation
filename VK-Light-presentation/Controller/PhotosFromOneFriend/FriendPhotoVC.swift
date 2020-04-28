@@ -103,6 +103,9 @@ extension FriendPhotoVC {
             guard let friendData = self.friendPhotoDataSource.urlPhoto else {return}
             if !friendData.isEmpty {
                 self.dellAllFriendCoreData()
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                }
             }
             if error != nil {
                 self.showLoginError()
