@@ -9,15 +9,17 @@
 import Foundation
 
 protocol NetworkingProtocol {
-    func requestNews(completion: @escaping (Data?, Error?) -> Void)
+    func requestNews(queryValue: String?, completion: @escaping (Data?, Error?) -> Void)
     func requestUsers(completion: @escaping (Data?, Error?) -> Void)
 }
 
 class ApiNews: NetworkingProtocol {
     
     // MARK: - Request News List
-    func requestNews(completion: @escaping (Data?, Error?) -> Void) {
+    func requestNews(queryValue: String?, completion: @escaping (Data?, Error?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
+//            let queryItem = URLQueryItem(name: "start_from", value: queryValue)
+            
             var urlComponents = URLComponents()
             urlComponents.scheme = SessionSingletone.shared.scheme
             urlComponents.host = SessionSingletone.shared.host
@@ -25,7 +27,8 @@ class ApiNews: NetworkingProtocol {
             urlComponents.queryItems = [
                 URLQueryItem(name: "access_token", value: SessionSingletone.shared.token),
                 URLQueryItem(name: "filters", value: "post, photo"),
-                //                URLQueryItem(name: "count", value: "5"),
+//                queryItem,
+                URLQueryItem(name: "start_from", value: queryValue),
                 URLQueryItem(name: "v", value: SessionSingletone.shared.apiVersion)
             ]
             guard let url = urlComponents.url else {return}

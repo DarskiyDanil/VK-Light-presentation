@@ -24,12 +24,6 @@ class NewsFeedInteractor: NewsFeedBusinessLogic, NewsFeedDataStore {
     var presenter: NewsFeedPresentationLogic?
     var worker: NewsFeedWorker?
     
-    //    массив ID ячеек с нажатой кнопкой postButton
-    private var openedPostIds = [Int]()
-    private var newsFeedResponse: ResponseNews?
-    
-    let fetcher: DataFetchProtocol = NetworkDataFetch(networking: ApiNews())
-    
     // MARK: - Do Request
     
     func makeRequest(request: NewsFeed.Model.Request.RequestType) {
@@ -39,32 +33,24 @@ class NewsFeedInteractor: NewsFeedBusinessLogic, NewsFeedDataStore {
         
         switch request {
         case .getNewsFeed:
-            fetcher.getFeed { [weak self] (newsFeedResponse) in
-                
-                self?.newsFeedResponse = newsFeedResponse
-                self?.presentNews()
-            }
-            
-        case .openPostId(postId: let postId):
-            openedPostIds.append(postId)
-            presentNews()
+            worker?.getFeed(completion: { [weak self] (openedPostIds, news) in
+                self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: news, openedPostIds: openedPostIds))
+            })
         case .getUser:
-            fetcher.getUser { [weak self] (userResponse) in
-                self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentUserPhoto(user: userResponse))
-            }
-            
+            worker?.getUser(completion: { [weak self] (user) in
+                self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentUserPhoto(user: user))
+            })
+        case .openPostId(postId: let postId):
+            worker?.openPostId(forPostId: postId, completion: { [weak self] (openedPostIds, news) in
+                self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: news, openedPostIds: openedPostIds))
+            })
+        case .getNextNewsList:
+            print("interactor .getNextNewsList")
+            worker?.getNextNewsList(completion: { (openedPostIds, news) in
+                self.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: news, openedPostIds: openedPostIds))
+            })
         }
-        
-        worker?.doSomeWork()
-        
-        //        let response = NewsFeed.Model.Response.ResponseType.self
-        //        presenter?.presentData(response: response)
-    }
-    
-    private func presentNews() {
-        guard let newsFeedResponse = self.newsFeedResponse else {return}
-        presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: newsFeedResponse, openedPostIds: openedPostIds))
-        
+
     }
     
 }

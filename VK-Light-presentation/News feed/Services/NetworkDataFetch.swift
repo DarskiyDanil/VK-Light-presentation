@@ -9,7 +9,7 @@
 import Foundation
 
 protocol DataFetchProtocol {
-    func getFeed(response: @escaping (ResponseNews?) -> Void)
+    func getFeed(nextNewsListFrom: String?, response: @escaping (ResponseNews?) -> Void)
     func getUser(response: @escaping (UserResponse?) -> Void)
 }
 
@@ -20,8 +20,8 @@ struct NetworkDataFetch: DataFetchProtocol {
         self.networking = networking
     }
     
-    func getFeed(response: @escaping (ResponseNews?) -> Void) {
-        networking.requestNews { (data, error) in
+    func getFeed(nextNewsListFrom: String?, response: @escaping (ResponseNews?) -> Void) {
+        networking.requestNews(queryValue: nextNewsListFrom) { (data, error) in
             if let error = error {
                 print("Error getFeed data \(error.localizedDescription)")
                 response(nil)

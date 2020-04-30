@@ -15,10 +15,10 @@ struct NewsFeedModelJsonParsed: Codable {
 
 // MARK: - Response
 struct ResponseNews: Codable {
-    let items: [ItemNewsFeed]
-    let profiles: [ProfileNewsFeed]
-    let groups: [GroupNewsFeed]
-    //    let nextFrom: String
+    var items: [ItemNewsFeed]
+    var profiles: [ProfileNewsFeed]
+    var groups: [GroupNewsFeed]
+    var nextFrom: String?
     
     //    enum CodingKeys: String, CodingKey {
     //        case items
@@ -39,7 +39,7 @@ struct ItemNewsFeed: Codable {
     let likes: Comments?
     let reposts: Comments?
     let views: Comments?
-    let attachments: [AttachmentItem]?
+    var attachments: [AttachmentItem]?
     
     //    let canDoubtCategory, canSetCategory: Bool?
     //    let type: PostTypeEnum?
@@ -112,7 +112,7 @@ struct AttachmentItem: Codable {
 // MARK: - PhotoAttachment
 struct PhotoAttachment: Codable {
     //    let id: Int
-    let sizes: [PhotoSizes]
+    var sizes: [PhotoSizes]
     var width: Int {
         return getPropperSize().width
     }

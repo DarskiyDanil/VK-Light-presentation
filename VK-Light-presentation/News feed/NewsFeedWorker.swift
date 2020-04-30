@@ -13,6 +13,96 @@
 import UIKit
 
 class NewsFeedWorker {
-  func doSomeWork() {
-  }
+    //  func doSomeWork() {
+    //  }
+    
+    var netvorking: NetworkingProtocol
+    var fetcher: DataFetchProtocol
+    //    массив ID ячеек с нажатой кнопкой postButton
+    private var openedPostIds = [Int]()
+    private var newsFeedResponse: ResponseNews?
+    private var newFromInProcess: String?
+    
+    init() {
+        self.netvorking = ApiNews()
+        self.fetcher = NetworkDataFetch(networking: netvorking)
+    }
+    
+    func getUser(completion: @escaping (UserResponse?) -> Void) {
+        fetcher.getUser { (user) in
+            completion(user)
+        }
+    }
+    
+    func getFeed(completion: @escaping ([Int], ResponseNews) -> Void) {
+        fetcher.getFeed(nextNewsListFrom: nil) { [weak self] (newsFeed) in
+            self?.newsFeedResponse = newsFeed
+            guard let newsFeedResponse = self?.newsFeedResponse else {return}
+            completion(self!.openedPostIds, newsFeedResponse)
+        }
+    }
+    
+    func openPostId(forPostId postId: Int,completion: @escaping ([Int], ResponseNews) -> Void) {
+        openedPostIds.append(postId)
+        guard let responseNews = self.newsFeedResponse else {return}
+        completion(openedPostIds, responseNews)
+    }
+    
+    func getNextNewsList(completion: @escaping ([Int], ResponseNews) -> Void) {
+//        newFromInProcess = URLQueryItem(name: "start_time", value: newsFeedResponse?.nextFrom)
+        newFromInProcess =  newsFeedResponse?.nextFrom
+        fetcher.getFeed(nextNewsListFrom: newFromInProcess) { [weak self] (feed) in
+            guard let feed = feed else {return}
+            guard self?.newsFeedResponse?.nextFrom != feed.nextFrom else {return}
+            if self?.newsFeedResponse == nil {
+                self?.newsFeedResponse = feed
+            } else {
+                self?.newsFeedResponse?.items.append(contentsOf: feed.items)
+                
+                var profiles = feed.profiles
+                if let oldProfiles = self?.newsFeedResponse?.profiles {
+                    let oldProfilesFiltered = oldProfiles.filter { (oldProfile) -> Bool in
+                        !feed.profiles.contains(where: {$0.id == oldProfile.id})
+                    }
+                    profiles.append(contentsOf: oldProfilesFiltered)
+                }
+                
+                var groups = feed.groups
+                if let oldGroups = self?.newsFeedResponse?.groups {
+                    let oldGroupsFiltered = oldGroups.filter { (oldGroup) -> Bool in
+                        !feed.groups.contains(where: {$0.id == oldGroup.id})
+                    }
+                    groups.append(contentsOf: oldGroupsFiltered)
+                }
+                
+                self?.newsFeedResponse?.profiles = profiles
+                self?.newsFeedResponse?.groups = groups
+                self?.newsFeedResponse?.nextFrom = feed.nextFrom
+            }
+            guard let feedResponse = self?.newsFeedResponse else {return}
+            
+            completion(self!.openedPostIds, feedResponse)
+        }
+        
+    }
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

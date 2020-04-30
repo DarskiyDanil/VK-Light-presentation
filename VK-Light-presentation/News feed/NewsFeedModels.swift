@@ -21,6 +21,7 @@ enum NewsFeed {
                 case getNewsFeed
                 case getUser
                 case openPostId(postId: Int)
+                case getNextNewsList
             }
         }
         
