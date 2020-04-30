@@ -20,8 +20,9 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
     
     var interactor: NewsFeedBusinessLogic?
     var router: (NSObjectProtocol & NewsFeedRoutingLogic & NewsFeedDataPassing)?
-    private var feedViewModel = FeedViewModel.init(cells: [])
+    private var feedViewModel = FeedViewModel.init(cells: [], footerTitle: nil)
     private var titleView = TitleView()
+    private lazy var footerView = FooterView()
     
     let tableView: UITableView = {
         var tableView = UITableView()
@@ -72,11 +73,9 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //    doSomething()
         setup()
         setupTableView()
         setupTopBar()
-        
         DispatchQueue.main.async {
             self.addViews()
         }
@@ -85,13 +84,13 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
     }
     
     private func setupTableView() {
-        
         tableView.contentInset.top = CGFloat(8)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(NewsFeedCodeCell.self, forCellReuseIdentifier: NewsFeedCodeCell.idCell)
         //        tableView.separatorStyle = .none
         tableView.addSubview(refreshControl)
+        tableView.tableFooterView = footerView
     }
     
     //    установка строки поиска
@@ -110,10 +109,16 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
         switch viewModel {
         case .displayNewsFeed(feedViewModel: let feedViewModel):
             self.feedViewModel = feedViewModel
+            footerView.setTitle(feedViewModel.footerTitle)
             tableView.reloadData()
             refreshControl.endRefreshing()
+
+            
         case .displayUser(userViewModel: let userViewModel):
             titleView.set(userViewModel: userViewModel)
+            
+        case .displayFooterLoader:
+            footerView.showLoader()
         }
     }
     
@@ -165,6 +170,7 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     fileprivate func addViews() {
+        
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
         

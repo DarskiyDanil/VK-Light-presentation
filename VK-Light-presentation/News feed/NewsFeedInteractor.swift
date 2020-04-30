@@ -45,7 +45,8 @@ class NewsFeedInteractor: NewsFeedBusinessLogic, NewsFeedDataStore {
                 self?.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: news, openedPostIds: openedPostIds))
             })
         case .getNextNewsList:
-            print("interactor .getNextNewsList")
+
+            self.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentFooterLoader)
             worker?.getNextNewsList(completion: { (openedPostIds, news) in
                 self.presenter?.presentData(response: NewsFeed.Model.Response.ResponseType.presentNewsFeed(feed: news, openedPostIds: openedPostIds))
             })

@@ -47,6 +47,8 @@
 		83BC807D24587C3B004582C8 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC807C24587C3B004582C8 /* TitleView.swift */; };
 		83BC807F24587D9C004582C8 /* InsertableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC807E24587D9C004582C8 /* InsertableTextField.swift */; };
 		83BC8081245892C9004582C8 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC8080245892C9004582C8 /* UserResponse.swift */; };
+		83BC8084245B1101004582C8 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BC8083245B1101004582C8 /* FooterView.swift */; };
+		83BC8086245B1FBA004582C8 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 83BC8085245B1FBA004582C8 /* Localizable.stringsdict */; };
 		83C4AA1B244EFABC000D60D4 /* NewsFeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C4AA15244EFABC000D60D4 /* NewsFeedPresenter.swift */; };
 		83C4AA1C244EFABC000D60D4 /* NewsFeedWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C4AA16244EFABC000D60D4 /* NewsFeedWorker.swift */; };
 		83C4AA1D244EFABC000D60D4 /* NewsFeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C4AA17244EFABC000D60D4 /* NewsFeedRouter.swift */; };
@@ -118,6 +120,8 @@
 		83BC807C24587C3B004582C8 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		83BC807E24587D9C004582C8 /* InsertableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertableTextField.swift; sourceTree = "<group>"; };
 		83BC8080245892C9004582C8 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
+		83BC8083245B1101004582C8 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		83BC8085245B1FBA004582C8 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		83C4AA15244EFABC000D60D4 /* NewsFeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedPresenter.swift; sourceTree = "<group>"; };
 		83C4AA16244EFABC000D60D4 /* NewsFeedWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedWorker.swift; sourceTree = "<group>"; };
 		83C4AA17244EFABC000D60D4 /* NewsFeedRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedRouter.swift; sourceTree = "<group>"; };
@@ -311,9 +315,18 @@
 			path = TitleView;
 			sourceTree = "<group>";
 		};
+		83BC8082245B107E004582C8 /* FooterView */ = {
+			isa = PBXGroup;
+			children = (
+				83BC8083245B1101004582C8 /* FooterView.swift */,
+			);
+			path = FooterView;
+			sourceTree = "<group>";
+		};
 		83C4AA14244EF83E000D60D4 /* News feed */ = {
 			isa = PBXGroup;
 			children = (
+				83BC8082245B107E004582C8 /* FooterView */,
 				83BC807B24587BE0004582C8 /* TitleView */,
 				83F108B5244E37F700B0996A /* Services */,
 				83F108B6244E381400B0996A /* ModelNews */,
@@ -345,6 +358,7 @@
 				83C4AA252450C8BA000D60D4 /* WebImageView.swift */,
 				83BC80702454E0FA004582C8 /* Constraints.swift */,
 				83C7F7C22454843300A73CDC /* String + heidht.swift */,
+				83BC8085245B1FBA004582C8 /* Localizable.stringsdict */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -466,6 +480,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				832DF89323BE299F00DCB79C /* LaunchScreen.storyboard in Resources */,
+				83BC8086245B1FBA004582C8 /* Localizable.stringsdict in Resources */,
 				832DF89023BE299F00DCB79C /* Preview Assets.xcassets in Resources */,
 				832DF88D23BE299F00DCB79C /* Assets.xcassets in Resources */,
 			);
@@ -518,6 +533,7 @@
 				832DF8AC23BE2B0800DCB79C /* TabBarController.swift in Sources */,
 				832DF8B423BE2C6F00DCB79C /* AllFriendDataTableView.swift in Sources */,
 				83C7F7C32454843300A73CDC /* String + heidht.swift in Sources */,
+				83BC8084245B1101004582C8 /* FooterView.swift in Sources */,
 				830C4D9624424DB100970111 /* PresentPhotoVC.swift in Sources */,
 				832EFAF2243A771700380734 /* PhotoFriendCoreData+CoreDataProperties.swift in Sources */,
 				832DF8BE23BE2E0700DCB79C /* MyGroupDataTableView.swift in Sources */,

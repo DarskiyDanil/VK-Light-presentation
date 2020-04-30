@@ -40,12 +40,17 @@ class NewsFeedPresenter: NewsFeedPresentationLogic {
                 cellViewModel(from: feedItem, profileNewsFeed: feed.profiles, groupNewsFeed: feed.groups, openedPostIds: openedPostIds)
             }
             
-            let feedViewModel = FeedViewModel.init(cells: cells)
+//            надпись при загрузке предыдущих новостей
+            let footerTitle = String.localizedStringWithFormat(NSLocalizedString("NewsFeed Cels Count", comment: ""), cells.count)
+            let feedViewModel = FeedViewModel.init(cells: cells, footerTitle: footerTitle)
             
             viewController?.displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData.displayNewsFeed(feedViewModel: feedViewModel))
         case .presentUserPhoto(user: let user):
             let userViewModel = UserViewModel.init(photoUrlString: user?.photo100)
             viewController?.displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData.displayUser(userViewModel: userViewModel))
+        
+        case .presentFooterLoader:
+            viewController?.displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData.displayFooterLoader)
         }
     }
     
