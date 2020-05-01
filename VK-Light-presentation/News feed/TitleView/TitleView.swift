@@ -20,7 +20,6 @@ class TitleView: UIView {
     private var myAvatarView: WebImageView = {
         let image = WebImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-//        image.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
         image.clipsToBounds = true
         return image
     }()
@@ -28,8 +27,7 @@ class TitleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(myAvatarView)
-        addSubview(textField)
+        
         addConstraints()
     }
     
@@ -38,6 +36,9 @@ class TitleView: UIView {
     }
     
     func addConstraints() {
+        addSubview(myAvatarView)
+        addSubview(textField)
+        
         //        myAvatarView constraints
         myAvatarView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
         myAvatarView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true

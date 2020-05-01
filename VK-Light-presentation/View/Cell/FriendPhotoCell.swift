@@ -12,28 +12,32 @@ class FriendPhotoCell: UICollectionViewCell {
     
     static let idCell = "FriendPhotoCell"
     
-    
-    func configure(with friend: UrlPhotoCoreData) {
-        guard let url = friend.url else {return}
-        self.picture.set(imageUrl: url)
-    }
-    
     let picture: WebImageView = {
         var imageView = WebImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 4
-        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = .systemBackground
         return imageView
     }()
     
+    func configure(with friend: UrlPhotoCoreData) {
+        
+        guard let url = friend.url else {return}
+        self.picture.set(imageUrl: url)
+        
+        
+        
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.contentView.addSubview(picture)
         DispatchQueue.main.async {
             self.setupViews()
         }
+    }
+    
+    override func layoutSubviews() {
+        picture.layer.cornerRadius = 6
+        picture.clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,12 +49,8 @@ class FriendPhotoCell: UICollectionViewCell {
     }
     
     func setupViews() {
-        picture.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        picture.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        picture.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        picture.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        picture.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        picture.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        addSubview(picture)
+        picture.fillSuperview()
     }
     
     

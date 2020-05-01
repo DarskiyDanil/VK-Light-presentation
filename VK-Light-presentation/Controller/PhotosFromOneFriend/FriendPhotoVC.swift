@@ -12,7 +12,6 @@ import CoreData
 
 class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
     
-    
     let apiServiceRequest = APIServiceRequest()
     let friendPhotoDataSource = FriendPhotoDataSource()
     let groupAllFrindList = DispatchGroup()
@@ -55,7 +54,17 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let presentPhotoVC = PresentPhotoVC()
-        presentPhotoVC.photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.lastObject as? UrlPhotoCoreData
+        
+        if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "w"}) {
+            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "z"}) {
+            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "y"}) {
+            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "x"}) {
+            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+        }
+        
         self.collectionView.reloadData()
         present(presentPhotoVC, animated: true, completion: nil)
     }
@@ -103,9 +112,9 @@ extension FriendPhotoVC {
             guard let friendData = self.friendPhotoDataSource.urlPhoto else {return}
             if !friendData.isEmpty {
                 self.dellAllFriendCoreData()
-//                DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
-//                }
+                //                DispatchQueue.main.async {
+                //                    self.collectionView.reloadData()
+                //                }
             }
             if error != nil {
                 self.showLoginError()
@@ -118,28 +127,29 @@ extension FriendPhotoVC {
     //    Сохранение
     private func saveListFriendCoreData (friendData: [PhotoFriendParsedData]) {
         //                print(friendData)
-        let context = getContext()                                          //1
-        var photoFriend = [PhotoFriendCoreData]()                           //2
+        let context = getContext()
+        var photoFriend = [PhotoFriendCoreData]()
         
-        for first in friendData {                                                             //3 --- {
-            let nextPhotoFriendCoreData = PhotoFriendCoreData(context: context)                              //4
-            let attributes = nextPhotoFriendCoreData.urlPhotoCoreData?.mutableCopy() as? NSMutableOrderedSet //5
-            nextPhotoFriendCoreData.id = Int64(first.id)                                                 //6
-            nextPhotoFriendCoreData.ownerId = Int64(first.ownerId)                                       //7
+        for first in friendData {
+            let nextPhotoFriendCoreData = PhotoFriendCoreData(context: context)
+            let attributes = nextPhotoFriendCoreData.urlPhotoCoreData?.mutableCopy() as? NSMutableOrderedSet
+            nextPhotoFriendCoreData.id = Int64(first.id)
+            nextPhotoFriendCoreData.ownerId = Int64(first.ownerId)
             
-            for friend in first.sizes {                                              // 8 -- {
-                let contextObject = UrlPhotoCoreData(context: context)      //9
-                //                if friend.height < 500 && friend.height > 300 {
-                contextObject.url = friend.url                          //10
-                contextObject.height = Int64(friend.height)             //11
-                contextObject.width = Int64(friend.width)               //12
-                
-                attributes?.add(contextObject)                          //13
-                //                }
-            }                                                                       // 14 -- }
-            nextPhotoFriendCoreData.urlPhotoCoreData = attributes             //15
-            photoFriend.append(nextPhotoFriendCoreData)                       //16
-        }                                                                                       //17 --- }
+            for friend in first.sizes {
+                if friend.type == "x" || friend.type == "z" || friend.type == "w" || friend.type == "y" {
+                    let contextObject = UrlPhotoCoreData(context: context)
+                    contextObject.type = friend.type
+                    contextObject.url = friend.url
+                    contextObject.height = Int64(friend.height)
+                    contextObject.width = Int64(friend.width)
+                    attributes?.add(contextObject)
+                }
+            }
+            
+            nextPhotoFriendCoreData.urlPhotoCoreData = attributes
+            photoFriend.append(nextPhotoFriendCoreData)
+        }
         do {
             try context.save()
             self.friendPhotoDataSource.urlPhoto = photoFriend
@@ -198,15 +208,15 @@ extension FriendPhotoVC: UICollectionViewDelegateFlowLayout {
     }
     
     private func layoutView() {
-        self.view.addSubview(collectionView)
-        self.view.addSubview(activityIndicator)
-        collectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        view.addSubview(collectionView)
+        view.addSubview(activityIndicator)
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
-        activityIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -150).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
 }

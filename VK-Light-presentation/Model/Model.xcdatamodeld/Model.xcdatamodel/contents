@@ -20,6 +20,7 @@
     </entity>
     <entity name="UrlPhotoCoreData" representedClassName=".UrlPhotoCoreData" syncable="YES">
         <attribute name="height" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
         <attribute name="width" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="photoFriendCoreData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PhotoFriendCoreData" inverseName="urlPhotoCoreData" inverseEntity="PhotoFriendCoreData"/>
@@ -28,6 +29,6 @@
         <element name="AllFriendCoreData" positionX="49.5" positionY="-117.10546875" width="128" height="118"/>
         <element name="AllGroupCoreData" positionX="56.171875" positionY="214.0625" width="128" height="103"/>
         <element name="PhotoFriendCoreData" positionX="-54" positionY="18" width="128" height="88"/>
-        <element name="UrlPhotoCoreData" positionX="327.171875" positionY="77.140625" width="128" height="103"/>
+        <element name="UrlPhotoCoreData" positionX="327.171875" positionY="77.140625" width="128" height="118"/>
     </elements>
 </model>

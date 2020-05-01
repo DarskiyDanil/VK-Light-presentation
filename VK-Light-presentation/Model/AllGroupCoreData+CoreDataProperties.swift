@@ -2,7 +2,7 @@
 //  AllGroupCoreData+CoreDataProperties.swift
 //  VK-Light-presentation
 //
-//  Created by  Данил Дарский on 05.04.2020.
+//  Created by  Данил Дарский on 01.05.2020.
 //  Copyright © 2020  Данил Дарский. All rights reserved.
 //
 //
@@ -17,9 +17,9 @@ extension AllGroupCoreData {
         return NSFetchRequest<AllGroupCoreData>(entityName: "AllGroupCoreData")
     }
 
+    @NSManaged public var dateDownload: Date?
     @NSManaged public var id: Int64
     @NSManaged public var imageUrl: String?
     @NSManaged public var name: String?
-    @NSManaged public var dateDownload: Date?
 
 }

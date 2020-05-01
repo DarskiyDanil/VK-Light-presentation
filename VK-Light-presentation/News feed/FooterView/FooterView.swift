@@ -45,10 +45,8 @@ class FooterView: UIView {
     }
     
     func setTitle(_ title: String?) {
-        
         loader.stopAnimating()
         myLabel.text = title
-        
     }
     
     required init?(coder: NSCoder) {

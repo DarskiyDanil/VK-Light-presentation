@@ -126,8 +126,6 @@ struct PhotoAttachment: Codable {
     private func getPropperSize() -> PhotoSizes {
         if let sizeX = sizes.first(where: {$0.type == "x"}) {
             return sizeX
-        } else if let fallBackSize = sizes.last {
-            return fallBackSize
         } else {
             return PhotoSizes(type: "нет картинки", url: "нет картинки", width: 0, height: 0)
         }

@@ -79,8 +79,13 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
         DispatchQueue.main.async {
             self.addViews()
         }
+
         interactor?.makeRequest(request: NewsFeed.Model.Request.RequestType.getNewsFeed)
         interactor?.makeRequest(request: NewsFeed.Model.Request.RequestType.getUser)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        
     }
     
     private func setupTableView() {
@@ -112,7 +117,6 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
             footerView.setTitle(feedViewModel.footerTitle)
             tableView.reloadData()
             refreshControl.endRefreshing()
-
             
         case .displayUser(userViewModel: let userViewModel):
             titleView.set(userViewModel: userViewModel)
@@ -128,7 +132,6 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
         }
     }
     
-    
     //    MARK: NewsFeedCodeCellDelegate
     func openPost(for cell: NewsFeedCodeCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {return}
@@ -140,7 +143,6 @@ class NewsFeedViewController: UIViewController, NewsFeedDisplayLogic, NewsFeedCo
 
 
 extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedViewModel.cells.count
@@ -183,3 +185,5 @@ extension NewsFeedViewController: UITableViewDelegate, UITableViewDataSource {
     
     
 }
+
+

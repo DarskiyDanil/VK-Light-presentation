@@ -19,8 +19,9 @@ class FriendPhotoDataSource: UIView, UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendPhotoCell.idCell, for: indexPath) as? FriendPhotoCell else {return UICollectionViewCell()}
-        if let OnePhotoCoreData = urlPhoto?[indexPath.item].urlPhotoCoreData?.lastObject as? UrlPhotoCoreData {
-            cell.configure(with: OnePhotoCoreData )
+        if let onePhotoCoreData = urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "x"}) as? UrlPhotoCoreData {
+            
+            cell.configure(with: onePhotoCoreData )
         }
         return cell
     }

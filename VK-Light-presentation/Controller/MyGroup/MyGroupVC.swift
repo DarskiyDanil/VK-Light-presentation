@@ -40,7 +40,6 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "мои сообщества"
-        //        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
         navigationController?.hidesBarsOnSwipe = true
         tableView.dataSource = allGroupDataTableView
@@ -59,8 +58,6 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         DispatchQueue.main.async{
             self.addViews()
         }
-        
-        //  searchController
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
@@ -87,9 +84,9 @@ extension MyGroupVC: APIServiceRequestDelegate {
     
     // получение данных через делегат
     func updateMyGroupsInterface(_: APIServiceRequest, with parsedData: (data: [AllGroupParsedData], error: Error?)) {
-//        DispatchQueue.main.async{
+        DispatchQueue.main.async{
             self.activityIndicator.startAnimating()
-//        }
+        }
         guard let friendData = self.allGroupDataTableView.allGroups else {return}
         if !friendData.isEmpty {
             self.dellAllFriendCoreData()
@@ -100,10 +97,9 @@ extension MyGroupVC: APIServiceRequestDelegate {
             print(error.localizedDescription)
         } else {
             self.saveListGroupsCoreData(friendData: parsedData.data)
-//            DispatchQueue.main.async{
-                //                self.tableView.reloadData()
+            DispatchQueue.main.async{
                 self.activityIndicator.stopAnimating()
-//            }
+            }
         }
     }
     
@@ -208,6 +204,7 @@ extension MyGroupVC {
 
 // MARK: - Search
 extension MyGroupVC : UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }

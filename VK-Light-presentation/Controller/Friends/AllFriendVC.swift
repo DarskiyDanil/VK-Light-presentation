@@ -54,14 +54,14 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         self.returnFriendCoreData()
         groupAllFrindList.leave()
         
-        DispatchQueue.main.async{
-            self.addViews()
-        }
-        //  searchController
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
         definesPresentationContext = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        addViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -253,3 +253,6 @@ extension AllFriendVC {
     }
     
 }
+
+
+

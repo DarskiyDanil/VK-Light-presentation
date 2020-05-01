@@ -36,15 +36,10 @@ class APIServiceRequest {
                 
                 guard let currentData = data else { return }
                 // парсинг JSON
-//                do {
                     let allFriendParsedData = self.decodeJson(type: FriendsJSONResponse.self, from: currentData)
-//                    let allFriendParsedData = try JSONDecoder().decode(FriendsJSONResponse.self, from: currentData)
                     DispatchQueue.main.async{
                         completion(allFriendParsedData?.response.items, error)
                     }
-//                } catch let error as Error? {
-//                    print("API allFriendParsedData error: \(String(describing: error?.localizedDescription))")
-//                }
             }
             task.resume()
         }
@@ -68,20 +63,13 @@ class APIServiceRequest {
             ]
             
             guard let url = urlComponents.url else {return}
-            
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let currentData = data else { return }
                 // парсинг JSON
-//                do {
                     let allGroupParsedData = self.decodeJson(type: FriendsPhotoJSONResponse.self, from: currentData)
-//                    let allGroupParsedData = try JSONDecoder().decode(FriendsPhotoJSONResponse.self, from: currentData)
-                    //                    print(allGroupParsedData)
                     DispatchQueue.main.async{
                         completion(allGroupParsedData?.response.items, error)
                     }
-//                } catch let error as Error? {
-//                    print("requestPhotosOneFriend error: \(String(describing: error?.localizedDescription))")
-//                }
             }
             task.resume()
         }

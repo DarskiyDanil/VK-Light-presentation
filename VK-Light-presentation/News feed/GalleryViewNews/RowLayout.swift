@@ -21,7 +21,6 @@ class RowLayout: UICollectionViewLayout {
     fileprivate var cellPadding: CGFloat = 4
     //    кеш вычисляемых атрибутов
     fileprivate var cache = [UICollectionViewLayoutAttributes]()
-    //
     fileprivate var contentWidth: CGFloat = 0
     //     константа
     fileprivate var contentHeigth: CGFloat {
