@@ -15,6 +15,13 @@ class PresentPhotoVC: UIViewController {
     private var bool: Bool = true
     private let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
     
+    let activityIndicator: UIActivityIndicatorView = {
+        var activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.color = #colorLiteral(red: 0.5544524193, green: 0.9462211728, blue: 0.01620966755, alpha: 1)
+        return activityIndicator
+    }()
+    
     private let buttonShared: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action:  #selector(tapButton), for:.touchDown)
@@ -53,8 +60,9 @@ class PresentPhotoVC: UIViewController {
     
     private func downloadImage(photoURL: UrlPhotoCoreData?) {
         guard let photoURL = photoURL?.url else {return}
-        
+        activityIndicator.startAnimating()
         self.photoImage.set(imageUrl: photoURL)
+        activityIndicator.stopAnimating()
     }
     
     private func addPhoto() {
@@ -66,6 +74,7 @@ class PresentPhotoVC: UIViewController {
         
         view.addSubview(photoImage)
         view.addSubview(buttonShared)
+        view.addSubview(activityIndicator)
         
         photoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         photoImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
@@ -76,6 +85,9 @@ class PresentPhotoVC: UIViewController {
         buttonShared.heightAnchor.constraint(equalToConstant: 40).isActive = true
         buttonShared.widthAnchor.constraint(equalToConstant: 120).isActive = true
         buttonShared.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
+        
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     @objc private func toolBarAlfa() {

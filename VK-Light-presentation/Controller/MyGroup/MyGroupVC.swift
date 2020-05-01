@@ -61,7 +61,6 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
-        definesPresentationContext = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

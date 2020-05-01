@@ -40,8 +40,8 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         super.viewDidLoad()
         navigationItem.title = "мои друзья"
         navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.hidesBarsOnSwipe = true
         navigationItem.searchController = searchController
-        self.navigationController?.hidesBarsOnSwipe = true
         tableView.dataSource = allFriendDataTableView
         tableView.delegate = self
         tableView.register(AllFriendCell.self, forCellReuseIdentifier: AllFriendCell.idCell)
@@ -57,7 +57,6 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
-        definesPresentationContext = true
     }
     
     override func viewDidLayoutSubviews() {
