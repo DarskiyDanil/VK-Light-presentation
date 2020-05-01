@@ -12,7 +12,6 @@
 - NSLayoutAnchor
 - Singletone
 - GCD
-- Сторонняя библиотека Kingfisher
 - TabBar
 - NavigationBar
 - SearchBar
