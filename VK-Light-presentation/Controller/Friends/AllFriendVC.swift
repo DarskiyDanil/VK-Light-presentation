@@ -42,9 +42,8 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.hidesBarsOnSwipe = true
         navigationItem.searchController = searchController
-        tableView.dataSource = allFriendDataTableView
-        tableView.delegate = self
-        tableView.register(AllFriendCell.self, forCellReuseIdentifier: AllFriendCell.idCell)
+        setupTableView()
+        
         addRefreshControl()
         groupAllFrindList.enter()
         self.requestMyFriendsSession()
@@ -53,19 +52,20 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         groupAllFrindList.enter()
         self.returnFriendCoreData()
         groupAllFrindList.leave()
-        
+        DispatchQueue.main.async{
+            self.addViews()
+        }
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
     }
     
-    override func viewDidLayoutSubviews() {
-        addViews()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    private func setupTableView() {
+        tableView.dataSource = allFriendDataTableView
+        tableView.delegate = self
+        tableView.register(AllFriendCell.self, forCellReuseIdentifier: AllFriendCell.idCell)
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets(top: 1, left: 25, bottom: 1, right: 25)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -80,6 +80,10 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
     
     //    высота ячейки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 54
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 54
     }
     
@@ -244,11 +248,7 @@ extension AllFriendVC {
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.fillSuperview()
     }
     
 }

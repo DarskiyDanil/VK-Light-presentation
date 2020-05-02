@@ -16,6 +16,8 @@ class MyGroupCell: UITableViewCell {
         var img = WebImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
         img.contentMode = .scaleAspectFit
+        img.clipsToBounds = true
+        img.layer.cornerRadius = 6
         return img
     }()
     
@@ -43,11 +45,6 @@ class MyGroupCell: UITableViewCell {
         }
     }
     
-    override func layoutSubviews() {
-        icon.clipsToBounds = true
-        icon.layer.cornerRadius = 6
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,12 +54,12 @@ class MyGroupCell: UITableViewCell {
         addSubview(titleNameFriends)
         
         icon.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        icon.topAnchor.constraint(equalTo: topAnchor, constant: 1).isActive = true
-        icon.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1).isActive = true
         icon.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
-        icon.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        icon.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 50).isActive = true
         //текст
         titleNameFriends.centerYAnchor.constraint(equalTo: icon.centerYAnchor).isActive = true
+        titleNameFriends.heightAnchor.constraint(equalToConstant: 40).isActive = true
         titleNameFriends.leftAnchor.constraint(equalTo: icon.rightAnchor, constant: 15).isActive = true
         titleNameFriends.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
     }

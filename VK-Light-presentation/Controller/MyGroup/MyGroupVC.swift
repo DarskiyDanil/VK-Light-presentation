@@ -42,9 +42,7 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         navigationItem.title = "мои сообщества"
         navigationItem.searchController = searchController
         navigationController?.hidesBarsOnSwipe = true
-        tableView.dataSource = allGroupDataTableView
-        tableView.delegate = self
-        tableView.register(MyGroupCell.self, forCellReuseIdentifier: MyGroupCell.idCell)
+        setupTableView()
         apiServiceRequest.delegate = self
         addRefreshControl()
         groupAllFrindList.enter()
@@ -67,12 +65,24 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         super.viewWillAppear(animated)
     }
     
+    private func setupTableView() {
+           tableView.dataSource = allGroupDataTableView
+           tableView.delegate = self
+           tableView.register(MyGroupCell.self, forCellReuseIdentifier: MyGroupCell.idCell)
+           tableView.separatorStyle = .singleLine
+           tableView.separatorInset = UIEdgeInsets(top: 1, left: 25, bottom: 1, right: 25)
+       }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     //    высота ячейки
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 54
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 54
     }
     
@@ -192,11 +202,7 @@ extension MyGroupVC {
         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        tableView.fillSuperview()
     }
     
 }

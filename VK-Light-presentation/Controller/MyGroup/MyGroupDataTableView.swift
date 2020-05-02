@@ -21,9 +21,6 @@ class MyGroupDataTableView: UITableView, UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MyGroupCell.idCell, for: indexPath) as! MyGroupCell
         
-        //        let friendOne = allGroups?[indexPath.row]
-        //        guard let friend = friendOne else {return cell}
-        
         if let allGroups = self.allGroups?[indexPath.row] {
             cell.configure(with: allGroups)
         }

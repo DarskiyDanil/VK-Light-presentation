@@ -16,16 +16,14 @@ class FriendPhotoCell: UICollectionViewCell {
         var imageView = WebImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 6
+        imageView.clipsToBounds = true
         return imageView
     }()
     
     func configure(with friend: UrlPhotoCoreData) {
-        
         guard let url = friend.url else {return}
-        self.picture.set(imageUrl: url)
-        
-        
-        
+        self.picture.set(imageUrl: url)   
     }
     
     override init(frame: CGRect) {
@@ -33,11 +31,6 @@ class FriendPhotoCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.setupViews()
         }
-    }
-    
-    override func layoutSubviews() {
-        picture.layer.cornerRadius = 6
-        picture.clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
