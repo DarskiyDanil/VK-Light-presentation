@@ -10,10 +10,6 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
-    fileprivate let navigationVCAllFriend = UINavigationController(rootViewController: AllFriendVC())
-    fileprivate let navigationVCMyGroup = UINavigationController(rootViewController: MyGroupVC())
-    fileprivate let navigationVCNews = UINavigationController(rootViewController: NewsFeedViewController())
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
@@ -23,14 +19,17 @@ class TabBarController: UITabBarController {
     }
     
     fileprivate func tabBar() {
-        
-        navigationVCAllFriend.tabBarItem.image = UIImage(systemName: "person.2")
-        navigationVCAllFriend.tabBarItem.title = "друзья"
-        navigationVCMyGroup.tabBarItem.image = UIImage(systemName: "person.3")
-        navigationVCMyGroup.tabBarItem.title = "сообщества"
-        navigationVCNews.tabBarItem.image = UIImage(systemName: "rectangle.dock")
-        navigationVCNews.tabBarItem.title = "лента"
-        
-        viewControllers = [navigationVCNews, navigationVCAllFriend, navigationVCMyGroup]
+        viewControllers = [tabBarVC(rootVC: NewsFeedViewController(), image: UIImage(systemName: "rectangle.dock")!, title: "лента"),
+                           tabBarVC(rootVC: AllFriendVC(), image: UIImage(systemName: "person.2")!, title: "друзья"),
+                           tabBarVC(rootVC: MyGroupVC(), image: UIImage(systemName: "person.3")!, title: "сообщества")]
     }
+    
+    func tabBarVC(rootVC: UIViewController, image: UIImage, title: String) -> UIViewController {
+        let navigationVC = UINavigationController(rootViewController: rootVC)
+        navigationVC.tabBarItem.image = image
+        navigationVC.tabBarItem.title = title
+        return navigationVC
+    }
+    
+    
 }
