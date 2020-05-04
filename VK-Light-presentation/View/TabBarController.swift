@@ -14,27 +14,6 @@ class TabBarController: UITabBarController {
     fileprivate let navigationVCMyGroup = UINavigationController(rootViewController: MyGroupVC())
     fileprivate let navigationVCNews = UINavigationController(rootViewController: NewsFeedViewController())
     
-    fileprivate let allFriendItem: UITabBarItem = {
-        let item = UITabBarItem()
-        item.title = "друзья"
-        item.image = UIImage(systemName: "person.2")
-        return item
-    }()
-    
-    fileprivate let groupItem: UITabBarItem = {
-        let item = UITabBarItem()
-        item.title = "сообщества"
-        item.image = UIImage(systemName: "person.3")
-        return item
-    }()
-    
-    fileprivate let newsItem: UITabBarItem = {
-        let item = UITabBarItem()
-        item.title = "лента"
-        item.image = UIImage(systemName: "rectangle.dock")
-        return item
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .fullScreen
@@ -45,9 +24,13 @@ class TabBarController: UITabBarController {
     
     fileprivate func tabBar() {
         
-        navigationVCAllFriend.tabBarItem = allFriendItem
-        navigationVCMyGroup.tabBarItem = groupItem
-        navigationVCNews.tabBarItem = newsItem
+        navigationVCAllFriend.tabBarItem.image = UIImage(systemName: "person.2")
+        navigationVCAllFriend.tabBarItem.title = "друзья"
+        navigationVCMyGroup.tabBarItem.image = UIImage(systemName: "person.3")
+        navigationVCMyGroup.tabBarItem.title = "сообщества"
+        navigationVCNews.tabBarItem.image = UIImage(systemName: "rectangle.dock")
+        navigationVCNews.tabBarItem.title = "лента"
+        
         viewControllers = [navigationVCNews, navigationVCAllFriend, navigationVCMyGroup]
     }
 }
