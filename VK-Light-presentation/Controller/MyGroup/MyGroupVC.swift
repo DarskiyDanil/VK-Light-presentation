@@ -59,6 +59,8 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "поиск"
+        searchController.searchBar.searchTextField.leftView?.tintColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+        searchController.searchBar.tintColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {
