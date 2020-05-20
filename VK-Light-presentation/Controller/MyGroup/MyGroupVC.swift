@@ -45,13 +45,13 @@ class MyGroupVC: UIViewController, UITableViewDelegate {
         setupTableView()
         apiServiceRequest.delegate = self
         addRefreshControl()
-        groupAllFrindList.enter()
+//        groupAllFrindList.enter()
         apiServiceRequest.requestAllGroups()
-        groupAllFrindList.leave()
-        groupAllFrindList.wait()
-        groupAllFrindList.enter()
+//        groupAllFrindList.leave()
+//        groupAllFrindList.wait()
+//        groupAllFrindList.enter()
         returnGroupedCoreData()
-        groupAllFrindList.leave()
+//        groupAllFrindList.leave()
         
         DispatchQueue.main.async{
             self.addViews()

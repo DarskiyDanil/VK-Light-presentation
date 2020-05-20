@@ -46,13 +46,13 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         setupTableView()
         
         addRefreshControl()
-        groupAllFrindList.enter()
+//        groupAllFrindList.enter()
         self.requestMyFriendsSession()
-        groupAllFrindList.leave()
-        groupAllFrindList.wait()
-        groupAllFrindList.enter()
+//        groupAllFrindList.leave()
+//        groupAllFrindList.wait()
+//        groupAllFrindList.enter()
         self.returnFriendCoreData()
-        groupAllFrindList.leave()
+//        groupAllFrindList.leave()
         DispatchQueue.main.async{
             self.addViews()
         }

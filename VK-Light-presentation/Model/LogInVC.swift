@@ -11,9 +11,7 @@ import WebKit
 class LogInVC: UIViewController, UIWebViewDelegate {
     
     lazy var tabBarPresentController = TabBarController()
-//    var userId: String? {
-//        return String(SessionSingletone.shared.userId)
-//    }
+
     fileprivate let wKWebView: WKWebView = {
         let wKWebView = WKWebView()
         wKWebView.translatesAutoresizingMaskIntoConstraints = false

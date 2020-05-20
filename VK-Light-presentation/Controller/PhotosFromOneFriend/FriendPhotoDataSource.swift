@@ -9,7 +9,7 @@
 import UIKit
 
 
-class FriendPhotoDataSource: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class FriendPhotoDataSource: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var urlPhoto:[PhotoFriendCoreData]?
     

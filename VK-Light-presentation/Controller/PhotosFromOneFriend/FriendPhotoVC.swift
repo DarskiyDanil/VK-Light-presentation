@@ -34,13 +34,13 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
         collectionView.dataSource = friendPhotoDataSource
         collectionView.delegate = self
         collectionView.register(FriendPhotoCell.self, forCellWithReuseIdentifier: FriendPhotoCell.idCell)
-        groupAllFrindList.enter()
+//        groupAllFrindList.enter()
         requestPhotoFriendsSession()
-        groupAllFrindList.leave()
-        groupAllFrindList.wait()
-        groupAllFrindList.enter()
+//        groupAllFrindList.leave()
+//        groupAllFrindList.wait()
+//        groupAllFrindList.enter()
         returnPhotoCoreData()
-        groupAllFrindList.leave()
+//        groupAllFrindList.leave()
         
         DispatchQueue.main.async{
             self.layoutView()
@@ -106,20 +106,20 @@ extension FriendPhotoVC {
     //        запрос списка друзей
     private func requestPhotoFriendsSession() {
         self.activityIndicator.startAnimating()
-        self.apiServiceRequest.requestPhotosOneFriend(ownerId: SessionSingletone.shared.ownerIdSelectedPerson) {[unowned self] (friends, error) in
+        self.apiServiceRequest.requestPhotosOneFriend(ownerId: SessionSingletone.shared.ownerIdSelectedPerson) {[weak self] (friends, error) in
             guard let friendsRequest = friends else {return}
-            guard let friendData = self.friendPhotoDataSource.urlPhoto else {return}
+            guard let friendData = self?.friendPhotoDataSource.urlPhoto else {return}
             if !friendData.isEmpty {
-                self.dellAllFriendCoreData()
+                self?.dellAllFriendCoreData()
                 //                DispatchQueue.main.async {
                 //                    self.collectionView.reloadData()
                 //                }
             }
             if error != nil {
-                self.showLoginError()
+                self?.showLoginError()
             }
-            self.saveListFriendCoreData(friendData: friendsRequest)
-            self.activityIndicator.stopAnimating()
+            self?.saveListFriendCoreData(friendData: friendsRequest)
+            self?.activityIndicator.stopAnimating()
         }
     }
     
