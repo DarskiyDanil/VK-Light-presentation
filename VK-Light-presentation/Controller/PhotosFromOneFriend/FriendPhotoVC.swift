@@ -53,15 +53,22 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let presentPhotoVC = PresentPhotoVC()
+        let typeSize = ["w", "z", "y", "x"]
         
-        if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "w"}) {
-            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "z"}) {
-            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "y"}) {
-            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "x"}) {
-            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+//        if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "w"}) {
+//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "z"}) {
+//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "y"}) {
+//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "x"}) {
+//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+//        }
+        
+        for i in typeSize {
+            if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == i}) {
+                presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
+            }
         }
         
         self.collectionView.reloadData()
