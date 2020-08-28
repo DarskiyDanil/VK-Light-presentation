@@ -55,18 +55,8 @@ class FriendPhotoVC: UIViewController, UICollectionViewDelegate {
         let presentPhotoVC = PresentPhotoVC()
         let typeSize = ["w", "z", "y", "x"]
         
-//        if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "w"}) {
-//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "z"}) {
-//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "y"}) {
-//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-//        } else if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == "x"}) {
-//            presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
-//        }
-        
-        for i in typeSize {
-            if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == i}) {
+        for type in typeSize where type == "w" || type == "z" || type == "y" || type == "x" {
+            if let photoURL = friendPhotoDataSource.urlPhoto?[indexPath.item].urlPhotoCoreData?.first(where: {($0 as AnyObject).type == type}) {
                 presentPhotoVC.photoURL = photoURL as? UrlPhotoCoreData
             }
         }
@@ -142,15 +132,14 @@ extension FriendPhotoVC {
             nextPhotoFriendCoreData.id = Int64(first.id)
             nextPhotoFriendCoreData.ownerId = Int64(first.ownerId)
             
-            for friend in first.sizes {
-                if friend.type == "x" || friend.type == "z" || friend.type == "w" || friend.type == "y" {
+            for size in first.sizes where size.type == "x" || size.type == "z" || size.type == "w" || size.type == "y"{
+
                     let contextObject = UrlPhotoCoreData(context: context)
-                    contextObject.type = friend.type
-                    contextObject.url = friend.url
-                    contextObject.height = Int64(friend.height)
-                    contextObject.width = Int64(friend.width)
+                    contextObject.type = size.type
+                    contextObject.url = size.url
+                    contextObject.height = Int64(size.height)
+                    contextObject.width = Int64(size.width)
                     attributes?.add(contextObject)
-                }
             }
             
             nextPhotoFriendCoreData.urlPhotoCoreData = attributes

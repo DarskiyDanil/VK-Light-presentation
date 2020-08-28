@@ -46,13 +46,8 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         setupTableView()
         
         addRefreshControl()
-//        groupAllFrindList.enter()
         self.requestMyFriendsSession()
-//        groupAllFrindList.leave()
-//        groupAllFrindList.wait()
-//        groupAllFrindList.enter()
         self.returnFriendCoreData()
-//        groupAllFrindList.leave()
         DispatchQueue.main.async{
             self.addViews()
         }
@@ -227,17 +222,14 @@ extension AllFriendVC : UISearchResultsUpdating {
     @objc private func refreshNewsList() {
         
         groupAllFrindList.enter()
-//        activityIndicator.isHidden = true
         self.requestMyFriendsSession()
         groupAllFrindList.leave()
         groupAllFrindList.wait()
         groupAllFrindList.enter()
         refreshControl.endRefreshing()
         self.returnFriendCoreData()
-//        activityIndicator.isHidden = false
         groupAllFrindList.leave()
     }
-    
     
 }
 
