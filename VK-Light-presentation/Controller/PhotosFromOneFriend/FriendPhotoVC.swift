@@ -108,9 +108,9 @@ extension FriendPhotoVC {
             guard let friendData = self?.friendPhotoDataSource.urlPhoto else {return}
             if !friendData.isEmpty {
                 self?.dellAllFriendCoreData()
-                //                DispatchQueue.main.async {
-                //                    self.collectionView.reloadData()
-                //                }
+//                                DispatchQueue.main.async {
+//                                    self?.collectionView.reloadData()
+//                                }
             }
             if error != nil {
                 self?.showLoginError()
@@ -133,7 +133,6 @@ extension FriendPhotoVC {
             nextPhotoFriendCoreData.ownerId = Int64(first.ownerId)
             
             for size in first.sizes where size.type == "x" || size.type == "z" || size.type == "w" || size.type == "y"{
-
                     let contextObject = UrlPhotoCoreData(context: context)
                     contextObject.type = size.type
                     contextObject.url = size.url
@@ -152,7 +151,7 @@ extension FriendPhotoVC {
                 self.collectionView.reloadData()
             }
         } catch let error as NSError {
-            print("метод saveSectionPersonTitleName не сохранил: \(error.localizedDescription)")
+            print("метод saveListFriendCoreData не сохранил: \(error.localizedDescription)")
         }
     }
     

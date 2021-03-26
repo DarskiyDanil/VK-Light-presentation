@@ -145,7 +145,7 @@ extension MyGroupVC {
                 self.tableView.reloadData()
             }
         } catch let error as NSError {
-            print("метод saveSectionPersonTitleName не сохранил: \(error.localizedDescription)")
+            print("метод saveListGroupsCoreData не сохранил: \(error.localizedDescription)")
         }
     }
     

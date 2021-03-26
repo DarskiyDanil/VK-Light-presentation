@@ -36,10 +36,10 @@ class APIServiceRequest {
                 
                 guard let currentData = data else { return }
                 // парсинг JSON
-                    let allFriendParsedData = self.decodeJson(type: FriendsJSONResponse.self, from: currentData)
-                    DispatchQueue.main.async{
-                        completion(allFriendParsedData?.response.items, error)
-                    }
+                let allFriendParsedData = self.decodeJson(type: FriendsJSONResponse.self, from: currentData)
+                DispatchQueue.main.async{
+                    completion(allFriendParsedData?.response.items, error)
+                }
             }
             task.resume()
         }
@@ -66,10 +66,10 @@ class APIServiceRequest {
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let currentData = data else { return }
                 // парсинг JSON
-                    let allGroupParsedData = self.decodeJson(type: FriendsPhotoJSONResponse.self, from: currentData)
-                    DispatchQueue.main.async{
-                        completion(allGroupParsedData?.response.items, error)
-                    }
+                let allGroupParsedData = self.decodeJson(type: FriendsPhotoJSONResponse.self, from: currentData)
+                DispatchQueue.main.async{
+                    completion(allGroupParsedData?.response.items, error)
+                }
             }
             task.resume()
         }
@@ -91,31 +91,23 @@ class APIServiceRequest {
             ]
             
             guard let url = urlComponents.url else {return}
-//            self.requestingAndTransmittingAllFriendsData(url: url)
-//        }
-//    }
-    
-//    fileprivate func requestingAndTransmittingAllFriendsData(url: URL) {
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let currentData = data else { return }
-            // парсинг JSON
-//            do {
-               guard let allGroupParsedData = self.decodeJson(type: AllGroupResponse.self, from: currentData) else { return }
-//                let allGroupParsedData = try JSONDecoder().decode(AllGroupResponse.self, from: currentData)
+            
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard let currentData = data else { return }
+                // парсинг JSON
+                guard let allGroupParsedData = self.decodeJson(type: AllGroupResponse.self, from: currentData) else { return }
+                
                 // передача данных через делегат
                 DispatchQueue.main.async{
                     self.delegate?.updateMyGroupsInterface(self, with: (data: allGroupParsedData.response.items, error: error))
                 }
-//            } catch let error as Error? {
-//                print("requestAllGroups error: \(String(describing: error?.localizedDescription))")
-//            }
+            }
+            task.resume()
         }
-        task.resume()
     }
-}
     
     private func decodeJson<T: Decodable>(type: T.Type, from: Data?) -> T? {
-       let decoder = JSONDecoder()
+        let decoder = JSONDecoder()
         guard let data = from, let response = try? decoder.decode(type.self, from: data) else {return nil}
         return response
     }

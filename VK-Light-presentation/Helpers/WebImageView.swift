@@ -16,28 +16,24 @@ class WebImageView: UIImageView {
     
     func set(imageUrl: String?) {
         currentUrlString = imageUrl
-//        DispatchQueue.global(qos: .userInitiated).async {
-            guard let imageUrl = imageUrl, let url = URL(string: imageUrl) else {
-//                от мерцаний при прокрутке
-                self.image = nil
-                return}
-            //        проверка на наличие в кеш
-            if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)) {
-//                DispatchQueue.main.async {
-                self.image = UIImage(data: cachedResponse.data)
-                return
-//                }
+        guard let imageUrl = imageUrl, let url = URL(string: imageUrl) else {
+            //                от мерцаний при прокрутке
+            self.image = nil
+            return}
+        //        проверка на наличие в кеш
+        if let cachedResponse = URLCache.shared.cachedResponse(for: URLRequest(url: url)) {
+            self.image = UIImage(data: cachedResponse.data)
+            return
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let data = data, let response = response else {return}
+            DispatchQueue.main.async {
+                self?.cacheLoadedImage(data: data, response: response)
             }
-            
-            let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-                guard let data = data, let response = response else {return}
-                DispatchQueue.main.async {
-//                        self?.image = UIImage(data: data)
-                        self?.cacheLoadedImage(data: data, response: response)
-                }
-            }
-            dataTask.resume()
-//        }
+        }
+        dataTask.resume()
+
     }
     
     //    кеширование

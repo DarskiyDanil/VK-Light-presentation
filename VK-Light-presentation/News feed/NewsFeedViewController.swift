@@ -12,6 +12,9 @@
 
 import UIKit
 
+// MARK: -  /*   этот блок написан как ознакомительный, знания о Viper очень поверхноствые */
+
+
 protocol NewsFeedDisplayLogic: class {
     func displayData(viewModel: NewsFeed.Model.ViewModel.ViewModelData)
 }

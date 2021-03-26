@@ -16,7 +16,7 @@ class SessionSingletone {
     var token = ""
     var userId = Int()
     var ownerIdSelectedPerson = ""
-    let apiVersion = "5.103"
+    let apiVersion = "5.110"
     let developerСlientId = "6646537"
     
     let scheme = "https"

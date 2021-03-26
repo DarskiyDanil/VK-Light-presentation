@@ -88,18 +88,18 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
     //    запрос списка друзей
     private func requestMyFriendsSession() {
         self.activityIndicator.startAnimating()
-        self.apiServiceRequest.requestAllFriends {[unowned self] (friends, error) in
+        self.apiServiceRequest.requestAllFriends {[weak self] (friends, error) in
             
             guard let friendsRequest = friends else {return}
-            guard let friendData = self.allFriendDataTableView.allFriend else {return}
+            guard let friendData = self?.allFriendDataTableView.allFriend else {return}
             if !friendData.isEmpty {
-                self.dellAllFriendCoreData()
+                self?.dellAllFriendCoreData()
             }
             if error != nil {
-                self.showLoginError()
+                self?.showLoginError()
             }
-            self.saveListFriendCoreData(friendData: friendsRequest)
-            self.activityIndicator.stopAnimating()
+            self?.saveListFriendCoreData(friendData: friendsRequest)
+            self?.activityIndicator.stopAnimating()
         }
     }
     
@@ -130,7 +130,7 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
                 self.tableView.reloadData()
             }
         } catch let error as NSError {
-            print("метод saveSectionPersonTitleName не сохранил: \(error.localizedDescription)")
+            print("метод saveListFriendCoreData не сохранил: \(error.localizedDescription)")
         }
     }
     
@@ -158,7 +158,8 @@ class AllFriendVC: UIViewController, UITableViewDelegate, UICollectionViewDelega
         let fetchRequest: NSFetchRequest<AllFriendCoreData> = AllFriendCoreData.fetchRequest()
         //        получаем все объекты
         if let objects = try? context.fetch(fetchRequest) {
-            for object in objects {
+            
+            objects.forEach { object in
                 context.delete(object)
             }
         }
